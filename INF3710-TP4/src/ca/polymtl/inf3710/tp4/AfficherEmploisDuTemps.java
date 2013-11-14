@@ -1,13 +1,18 @@
 package ca.polymtl.inf3710.tp4;
 
+import java.sql.Connection;
+
 public class AfficherEmploisDuTemps
 {
+	Connection connection = null;
 	
-	public static void main(String[] args)
+	public AfficherEmploisDuTemps(Connection connection)
 	{
-		// TODO Auto-generated method stub
-		if (true)
-		{}
+		this.connection = connection;
 	}
 	
+	public void executer()
+	{
+		
+	}
 }
