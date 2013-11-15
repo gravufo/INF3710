@@ -9,8 +9,8 @@ import java.sql.SQLException;
 
 public class SelectionMethode
 {
-	static String username = "INF3710-133-32";
-	static String password = "URLNHW";
+	static String     username   = "INF3710-133-32";
+	static String     password   = "URLNHW";
 	static Connection connection = null;
 	
 	/**
@@ -24,60 +24,57 @@ public class SelectionMethode
 		{
 			System.out.println("Veuillez entrer le nom d'usager:");
 			
-//			try 
-//			{
-//				username = bufferRead.readLine();
-//			}
-//			catch (IOException e1)
-//			{
-//				e1.printStackTrace();
-//			}
-//			
-//			System.out.println("Veuillez entrer le mot de passe du compte:");
-//			
-//			try 
-//			{
-//				password = bufferRead.readLine();
-//			}
-//			catch (IOException e1)
-//			{
-//				e1.printStackTrace();
-//			}
-		}while(!initialiserConnection());
+			// try
+			// {
+			// username = bufferRead.readLine();
+			// }
+			// catch (IOException e1)
+			// {
+			// e1.printStackTrace();
+			// }
+			//
+			// System.out.println("Veuillez entrer le mot de passe du compte:");
+			//
+			// try
+			// {
+			// password = bufferRead.readLine();
+			// }
+			// catch (IOException e1)
+			// {
+			// e1.printStackTrace();
+			// }
+		} while (!initialiserConnection());
 		
-		
-		while(true)
+		while (true)
 		{
 			int methodeSelectionnee = 0;
 			
-			System.out.println("Voici la liste des méthodes disponibles: \n" +
-					"1. Afficher l'emploi du temps d'un cours\n" +
-					"2. Mettre à jour une section\n" +
-					"3. Mettre à jour l'emploi du temps d'une section\n" +
-					"4. Quitter\n\n" +
-					"Veuillez entrer le chiffre correspondant à la fonction désirée:");
+			System.out.println("Voici la liste des méthodes disponibles: \n"
+			                   + "1. Afficher l'emploi du temps d'un cours\n" + "2. Mettre à jour une section\n"
+			                   + "3. Mettre à jour l'emploi du temps d'une section\n" + "4. Quitter\n\n"
+			                   + "Veuillez entrer le chiffre correspondant à la fonction désirée:");
 			try
 			{
-				 methodeSelectionnee = Integer.parseInt(bufferRead.readLine());
+				methodeSelectionnee = Integer.parseInt(bufferRead.readLine());
 			}
-			catch(IOException e)
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 			
-			switch(methodeSelectionnee)
+			switch (methodeSelectionnee)
 			{
-			case 1:
-				AfficherEmploisDuTemps a = new AfficherEmploisDuTemps(connection);
-				a.executer();
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			default:
-				System.exit(0);
-				break;
+				case 1:
+					AfficherEmploisDuTemps a = new AfficherEmploisDuTemps(connection);
+					a.executer();
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				default:
+					System.exit(0);
+					break;
 			}
 		}
 	}
