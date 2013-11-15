@@ -7,11 +7,10 @@ BEFORE
 	UPDATE OF sigle, titre
 ON
 	Cours
-WHEN
-	OLD.sigle <> NEW.sigle OR OLD.titre <> NEW.titre
+FOR EACH ROW
 BEGIN
-	SET NEW.sigle = OLD.sigle;
-	SET NEW.titre = OLD.titre;
+	:NEW.sigle := :OLD.sigle;
+	:NEW.titre := :OLD.titre;
 END;
 	
 	
