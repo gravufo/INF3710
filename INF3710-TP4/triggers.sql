@@ -3,7 +3,18 @@
 
 CREATE OR REPLACE TRIGGER
 	im_sigle_and_name
-
+BEFORE
+	UPDATE OF sigle, titre
+ON
+	Cours
+WHEN
+	OLD.sigle <> NEW.sigle OR OLD.titre <> NEW.titre
+BEGIN
+	SET NEW.sigle = OLD.sigle;
+	SET NEW.titre = OLD.titre;
+END;
+	
+	
 
 
 -- B. Conflits d’horaire pour un enseignant
