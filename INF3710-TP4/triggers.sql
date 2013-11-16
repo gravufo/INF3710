@@ -1,5 +1,6 @@
 -- A.  Décrivez et implantez un mécanisme afin d’imposer la contrainte suivante :  dans la table
 --     Cours, on ne peut pas modifier le sigle ni le nom du cours.
+
 -- Afin d'éviter qu'on puisse modifier le sigle et le titre d'un cours, lorsque
 -- l'une de ces deux colonnes est modifiée, on remplace la nouvelle valeur dans
 -- la commande UPDATE, avant que celle-ci ne soit exécutée, par la valeur actuelle.
@@ -24,8 +25,14 @@ END;
 --    laquelle un enseignant serait affecté à deux séances en même temps. On vous demande :
 
 --    a. de caractériser formellement ce type de conflit ;
-      
+--       Il s'agit d'un conflit entre deux séances de cours qui se donnent
+--       intégralement ou partiellement en même temps et dont la section est
+--       enseignée par au moins une même personne.
+
 --    b. de préciser les actions sur la base de données qui pourraient engendrer un tel conflit ;
+--       Modifier ou ajouter une ligne dans séance.
+--       Modifier ou ajouter une ligne dans Ensigner.
+--       Modifier Jour ou Heure
       
 --    c.  d’implanter un ou plusieurs triggers qui garantissent la contrainte .
 
