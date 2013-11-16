@@ -8,11 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class AfficherEmploisDuTemps
+public class MettreAJourUneSection
 {
-	Connection connection = null;
+	Connection connection;
 	
-	public AfficherEmploisDuTemps(Connection connection)
+	public MettreAJourUneSection(Connection connection)
 	{
 		this.connection = connection;
 	}
@@ -23,11 +23,17 @@ public class AfficherEmploisDuTemps
 		{
 			BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 			
-			System.out.println("Veuillez entrer le sigle du cours désiré:");
+			System.out.println("Veuillez entrer le sigle du cours a supprimer:");
 			
 			String sigle = bufferRead.readLine();
 			
+			System.out.println("Veuillez entrer le titre du cours désiré:");
+			
+			String titre = bufferRead.readLine();
+			
 			Statement stmt = connection.createStatement();
+			
+			// todo
 			ResultSet result = stmt.executeQuery("SELECT c.titre, c.nbCredit, c.cycle, d.nom AS nomDept, p.nom AS nomPers " +
 					"FROM Cours c, Departement d, Personne p " +
 					"WHERE c.idPers = p.idPers AND " +
@@ -36,6 +42,7 @@ public class AfficherEmploisDuTemps
 			
 			while (result.next())
 			{
+				// todo
 				System.out.println("\nSigle: " + sigle + "\n"
 						+ "Titre du cours: " + result.getString("titre") + "\n"
 						+ "Nombre de credits: " + result.getString("nbCredit") + "\n"
@@ -43,33 +50,15 @@ public class AfficherEmploisDuTemps
 						+ "Responsable(s): " + result.getString("nomPers") + "\n"
 						+ "Departement(s): " + result.getString("nomDept") + "\n");
 			}
-			
-			result = stmt.executeQuery("SELECT * " +
-					"FROM Seance s, Jour j, Heure h " +
-					"WHERE sigle = '" + sigle + "' AND " +
-							"s.codJour = j.codJour AND " +
-							"s.codHeure = h.codHre");
-			
-			while (result.next())
-			{
-				System.out.println("Type: " + result.getString("leType")+ "\n"
-						+ "Groupe: " + result.getString("groupe") + "\n"
-						+ "Jour: " + result.getString("nom") + "\n"
-						+ "Heure: " + result.getString("hre") + "\n"
-						+ "Alternance: " + result.getString("alternance") + "\n"
-						+ "Local: " + result.getString("lelocal") + "\n");
-			}
-			
-			result.close();
-			stmt.close();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
 		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
 	}
+
 }

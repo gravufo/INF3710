@@ -50,8 +50,10 @@ public class SelectionMethode
 			int methodeSelectionnee = 0;
 			
 			System.out.println("Voici la liste des méthodes disponibles: \n"
-			                   + "1. Afficher l'emploi du temps d'un cours\n" + "2. Mettre à jour une section\n"
-			                   + "3. Mettre à jour l'emploi du temps d'une section\n" + "4. Quitter\n\n"
+			                   + "1. Afficher l'emploi du temps d'un cours\n"
+			                   + "2. Mettre à jour une section\n"
+			                   + "3. Mettre à jour l'emploi du temps d'une section\n"
+			                   + "4. Quitter\n\n"
 			                   + "Veuillez entrer le chiffre correspondant à la fonction désirée:");
 			try
 			{
@@ -69,11 +71,16 @@ public class SelectionMethode
 					a.executer();
 					break;
 				case 2:
+					MettreAJourUneSection m = new MettreAJourUneSection(connection);
+					m.executer();
 					break;
 				case 3:
 					break;
-				default:
+				case 4:
 					System.exit(0);
+					break;
+				default:
+					System.out.println("La valeur entree n'est pas valide. Veuillez recommencer.");
 					break;
 			}
 		}
