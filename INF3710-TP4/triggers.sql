@@ -25,11 +25,13 @@ END;
 --    laquelle un enseignant serait affecté à deux séances en même temps. On vous demande :
 
 --    a. de caractériser formellement ce type de conflit ;
+
 --       Il s'agit d'un conflit entre deux séances de cours qui se donnent
 --       intégralement ou partiellement en même temps et dont la section est
 --       enseignée par au moins une même personne.
 
 --    b. de préciser les actions sur la base de données qui pourraient engendrer un tel conflit ;
+
 --       Modifier ou ajouter une ligne dans séance.
 --       Modifier ou ajouter une ligne dans Ensigner.
 --       Modifier Jour ou Heure
