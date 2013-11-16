@@ -44,6 +44,22 @@ public class AfficherEmploisDuTemps
 						+ "Departement(s): " + result.getString("nomDept") + "\n");
 			}
 			
+			result = stmt.executeQuery("SELECT c.titre, c.nbCredit, c.cycle, d.nom AS nomDept, p.nom AS nomPers " +
+					"FROM Seance c " +
+					"WHERE c.sigle = s.sigle AND " +
+					"s.sigle = '" + sigle + "' AND " +
+					"c.idDept = d.idDept ");
+			
+			while (result.next())
+			{
+				System.out.println("\nSigle: " + sigle + "\n"
+						+ "Titre du cours: " + result.getString("titre") + "\n"
+						+ "Nombre de credits: " + result.getString("nbCredit") + "\n"
+						+ "Cycle: " + result.getString("cycle") + "\n"
+						+ "Responsable(s): " + result.getString("nomPers") + "\n"
+						+ "Departement(s): " + result.getString("nomDept") + "\n");
+			}
+			
 			result.close();
 			stmt.close();
 		}
