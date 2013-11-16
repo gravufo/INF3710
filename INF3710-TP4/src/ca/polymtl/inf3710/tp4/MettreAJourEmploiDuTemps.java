@@ -8,11 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class MettreAJourUneSection
+public class MettreAJourEmploiDuTemps
 {
 	Connection connection;
 	
-	public MettreAJourUneSection(Connection connection)
+	public MettreAJourEmploiDuTemps(Connection connection)
 	{
 		this.connection = connection;
 	}
@@ -82,5 +82,4 @@ public class MettreAJourUneSection
 			e.printStackTrace();
 		}
 	}
-
 }

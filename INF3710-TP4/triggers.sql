@@ -33,10 +33,21 @@ END;
 --    b. de préciser les actions sur la base de données qui pourraient engendrer un tel conflit ;
 
 --       Modifier ou ajouter une ligne dans séance.
---       Modifier ou ajouter une ligne dans Ensigner.
+--       Modifier ou ajouter une ligne dans Enseigner.
 --       Modifier Jour ou Heure
       
 --    c.  d’implanter un ou plusieurs triggers qui garantissent la contrainte .
+
+CREATE OR REPLACE TRIGGER
+	bf_heure_seance
+BEFORE
+	UPDATE OF codHeure, codJour
+ON
+	Seance
+FOR EACH ROW
+BEGIN
+	
+END;
 
 --  Pour le point (b), on vous signale que plusieurs actions menacent la contrainte, pas seulement
 --  la création ou la modification d’une séance…
