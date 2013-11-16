@@ -1,5 +1,11 @@
 -- A.  Décrivez et implantez un mécanisme afin d’imposer la contrainte suivante :  dans la table
--- Cours, on ne peut pas modifier le sigle ni le nom du cours.
+--     Cours, on ne peut pas modifier le sigle ni le nom du cours.
+-- Afin d'éviter qu'on puisse modifier le sigle et le titre d'un cours, lorsque
+-- l'une de ces deux colonnes est modifiée, on remplace la nouvelle valeur dans
+-- la commande UPDATE, avant que celle-ci ne soit exécutée, par la valeur actuelle.
+-- Ainsi, la valeur ne peut être modifiée.
+-- Il serait toutefois peut-être plus préférable d'utiliser des permissions sur les
+-- colonnes spécifiques à la place, si cela est possible.
 
 CREATE OR REPLACE TRIGGER
 	im_sigle_and_name
@@ -12,20 +18,19 @@ BEGIN
 	:NEW.sigle := :OLD.sigle;
 	:NEW.titre := :OLD.titre;
 END;
-	
-	
-
 
 -- B. Conflits d’horaire pour un enseignant
--- On veut interdire les conflits d’horaires pour un enseignant, c’est-à-dire la situation dans
--- laquelle un enseignant serait affecté à deux séances en même temps. On vous demande :
--- a. de caractériser formellement ce type de conflit ;
+--    On veut interdire les conflits d’horaires pour un enseignant, c’est-à-dire la situation dans
+--    laquelle un enseignant serait affecté à deux séances en même temps. On vous demande :
 
--- b. de préciser les actions sur la base de données qui pourraient engendrer un tel conflit ;
+--    a. de caractériser formellement ce type de conflit ;
+      
+--    b. de préciser les actions sur la base de données qui pourraient engendrer un tel conflit ;
+      
+--    c.  d’implanter un ou plusieurs triggers qui garantissent la contrainte .
 
--- c.  d’implanter un ou plusieurs triggers qui garantissent la contrainte .
--- Pour le point (b), on vous signale que plusieurs actions menacent la contrainte, pas seulement
--- la création ou la modification d’une séance…
+--  Pour le point (b), on vous signale que plusieurs actions menacent la contrainte, pas seulement
+--  la création ou la modification d’une séance…
 
 -- C. Inventaire et analyse des contraintes d’intégrité
 -- On souhaite garantir le respect de certaines propriétés (contraintes d´intégrité)
