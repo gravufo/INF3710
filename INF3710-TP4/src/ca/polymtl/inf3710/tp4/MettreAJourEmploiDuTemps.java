@@ -11,7 +11,8 @@ import java.util.Scanner;
 
 public class MettreAJourEmploiDuTemps
 {
-	Connection connection;
+	private Connection connection;
+	private String sigle;
 	
 	public MettreAJourEmploiDuTemps(Connection connection)
 	{
@@ -26,7 +27,7 @@ public class MettreAJourEmploiDuTemps
 			
 			System.out.println("Veuillez entrer le sigle du cours a supprimer:");
 			
-			String sigle = scan.next();
+			sigle = scan.next();
 			
 			Statement stmt = connection.createStatement();
 			
@@ -64,31 +65,67 @@ public class MettreAJourEmploiDuTemps
 			switch(choix)
 			{
 			case 1:
+				modifierSeance();
+				verifierRequete();
 				break;
 			case 2:
+				ajouterSeance();
+				verifierRequete();
 				break;
 			case 3:
+				supprimerSeance();
+				verifierRequete();
 				break;
 			case 4:
 				break;
 			default:
-				
 				break;
 			}
 			
-			String reponse;
-			do
-			{
-				System.out.println("Voulez-vous envoyer les changements (COMMIT) (o ou n)?");
-				
-				reponse = scan.next();
-				
-				if(reponse != "o" && reponse != "n")
-				{
-					System.out.println("Erreur, veuillez entrer 'o' ou 'n'.");
-				}
-			}while(reponse != "o" && reponse != "n");
+			scan.close();
 			
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private void modifierSeance()
+	{
+		
+	}
+	
+	private void ajouterSeance()
+	{
+		
+	}
+	
+	private void supprimerSeance()
+	{
+	}
+	
+	private void verifierRequete()
+	{
+		String reponse;
+		Scanner scan = new Scanner(System.in);
+		
+		do
+		{
+			System.out.println("Voulez-vous envoyer les changements (COMMIT) (o ou n)?");
+			
+			reponse = scan.next();
+			
+			if(reponse != "o" && reponse != "n")
+			{
+				System.out.println("Erreur, veuillez entrer 'o' ou 'n'.");
+			}
+		}while(reponse != "o" && reponse != "n");
+		
+		scan.close();
+		
+		try
+		{
 			if(reponse == "o")
 			{
 				connection.commit();
@@ -98,9 +135,9 @@ public class MettreAJourEmploiDuTemps
 				connection.rollback();
 			}
 		}
-		catch (SQLException e)
+		catch(SQLException e)
 		{
-			e.printStackTrace();
+			
 		}
 	}
 }
