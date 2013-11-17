@@ -55,13 +55,52 @@ public class MettreAJourUneSection
 				return;
 			}
 			
-			System.out.println(cours);
+			infoCours.close();
 			
-			// Sigle, Titre, Nombre de crédits, Cycle, Département, Reponsable
-			// SELECT titre, nbCredit, cycle, d.nom AS departement, p.nom AS nom, prenom FROM Cours c, Departement d,
-			// Personne p WHERE c.idDept = d.idDept AND p.idPers = c.idPers AND sigle = 'INF3710';
-			// Obtention des prérequis
-			// SELECT preRequis FROM Prerequis WHERE cours = 'INF3710';
+			// TODO Obtention des prérequis
+			String prerequis = "";
+			ResultSet infoPrerequis = stmt.executeQuery("SELECT preRequis FROM Prerequis WHERE cours = 'INF3710'");
+			
+			if (infoPrerequis.next())
+				prerequis += (infoPrerequis.getString("preRequis"));
+			while (infoPrerequis.next())
+			{
+				prerequis += ", " + infoPrerequis.getString("preRequis");
+			}
+			
+			System.out.println(cours + "Prérequis: " + prerequis + System.lineSeparator());
+			
+			// Affichage des information de chacune des sections, triée par type
+			ResultSet infoSection = stmt.executeQuery("SELECT leType, groupe FROM Section WHERE sigle = '" + sigle
+			                                          + "'");
+			
+			while (infoSection.next())
+			{
+				String type = infoSection.getString("leType");
+				int groupe = infoSection.getInt("groupe");
+				ResultSet resultatEnseignant = stmt.executeQuery("SELECT nom, prenom FROM Enseigner e, Personne p "
+				                                                 + "WHERE e.idPers = p.idPers AND sigle ='" + sigle
+				                                                 + "' " + "AND leType = '" + type + "' AND groupe = '"
+				                                                 + groupe + "'");
+				
+				String enseigant = "";
+				
+				if (resultatEnseignant.next())
+					enseigant += resultatEnseignant.getString("nom") + ", " + resultatEnseignant.getString("prenom");
+				while (resultatEnseignant.next())
+				{
+					enseigant += "; " + resultatEnseignant.getString("nom") + ", "
+					             + resultatEnseignant.getString("prenom");
+				}
+				
+				if (type.equals("L"))
+					type = "Travaux pratiques";
+				else
+					type = "Cours";
+				
+				System.out.println("Type: " + type + System.lineSeparator() + "Groupe: " + groupe
+				                   + System.lineSeparator() + "Enseignant(s): " + enseigant);
+			}
 			
 			// TODO
 			// Affichage des information de chacune des sections, triée par type
