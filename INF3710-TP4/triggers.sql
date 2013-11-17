@@ -75,19 +75,22 @@ END;
 -- qu’on ne vous impose pas d’implanter la technique que vous aurez proposée.
 
 -- 1. Vérifier que les prérequis et corequis ne forment pas une boucle ce qui rendrait un cours
--- impossible à prendre. Ceci pourrait être fait avec les déclencheurs, puisqu'il serait plus simple
--- de vérifier lors de l'ajout ou de la modification d'une entrée dans la table Prerequis.
+-- impossible à prendre. Ceci pourrait être fait avec un déclencheur, puisqu'il serait plus simple
+-- de vérifier lors de l'ajout ou de la modification d'une entrée dans la table Prerequis. Il faut
+-- donc, dans le déclancheur, comparer les prérequis du cours à modifier avec les prérequis de tous
+-- ces prérequis afin de s'assurer que notre modification ne va pas créer une boucle.
 
 -- 2. Vérifier que la salle de chaque cours est disponible aux heures du cours, c'est à dire qu'il n'y a pas
 -- deux cours dans une salle en même temps. Il est encore une fois très faisable d'implanter cette contrainte
--- par l'entremise d'un déclencheur. Il serait aussi possible de le faire directement en JDBC, mais ce n'est
--- pas aussi optimal, puisque si une autre méthode de modification de base de donnée est utilisée, on ne peut
--- pas avoir une garantie que la contrainte est respectée.
+-- par l'entremise d'un déclencheur en analysant les locaux de tous les cours enregistrés aux heures qui nous
+-- intéressent pour s'assurer que la salle voulue n'est pas dans cette liste. Il serait aussi possible de le
+-- faire directement en JDBC, mais ce n'est pas aussi optimal, puisque si une autre méthode de modification
+-- de base de donnée est utilisée, on ne peut pas avoir une garantie que la contrainte est respectée.
 
 -- 3. Il ne faut pas qu'un enseignant soit requis à deux séances simultanément. Il faut donc vérifier que
 -- l'enseignant est disponible lors de l'ajout ou de la modification de la place horaire d'un cours, d'une
 -- section ou d'une séance. Pour ce faire, il faut utiliser un déclencheur qui utilisera une requête interne
--- afin de vérifier les conditions mentionnées.
+-- afin de vérifier qu'une requête UPDATE n'apporte pas un conflit d'horaire des enseignants.
 
 -- 4. Il ne faut pas pouvoir rentrer une heure non valide ou une journée non valis dans la table Jour et Heure.
 -- Ainsi, puisque ceci est une contrainte assez simple, il est possible de le faire directement dans la base
