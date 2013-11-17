@@ -38,6 +38,9 @@ END;
       
 --    c.  d’implanter un ou plusieurs triggers qui garantissent la contrainte .
 
+--  Pour le point (b), on vous signale que plusieurs actions menacent la contrainte, pas seulement
+--  la création ou la modification d’une séance…
+
 CREATE OR REPLACE TRIGGER
 	bf_heure_seance
 BEFORE
@@ -60,8 +63,6 @@ BEGIN
 
 END;
 
---  Pour le point (b), on vous signale que plusieurs actions menacent la contrainte, pas seulement
---  la création ou la modification d’une séance…
 
 -- C. Inventaire et analyse des contraintes d’intégrité
 -- On souhaite garantir le respect de certaines propriétés (contraintes d´intégrité)
@@ -72,3 +73,31 @@ END;
 -- permettant de garantir son respect. Cette technique pourrait être une contrainte SQL (clé
 -- primaire, clé externe, unicité, différent de nul, contrainte de vérification) ou un trigger. Notez
 -- qu’on ne vous impose pas d’implanter la technique que vous aurez proposée.
+
+-- 1. Vérifier que les prérequis et corequis ne forment pas une boucle ce qui rendrait un cours
+-- impossible à prendre. Ceci pourrait être fait avec les déclencheurs, puisqu'il serait plus simple
+-- de vérifier lors de l'ajout ou de la modification d'une entrée dans la table Prerequis.
+
+-- 2. Vérifier que la salle de chaque cours est disponible aux heures du cours, c'est à dire qu'il n'y a pas
+-- deux cours dans une salle en même temps. Il est encore une fois très faisable d'implanter cette contrainte
+-- par l'entremise d'un déclencheur. Il serait aussi possible de le faire directement en JDBC, mais ce n'est
+-- pas aussi optimal, puisque si une autre méthode de modification de base de donnée est utilisée, on ne peut
+-- pas avoir une garantie que la contrainte est respectée.
+
+-- 3. Il ne faut pas qu'un enseignant soit requis à deux séances simultanément. Il faut donc vérifier que
+-- l'enseignant est disponible lors de l'ajout ou de la modification de la place horaire d'un cours, d'une
+-- section ou d'une séance. Pour ce faire, il faut utiliser un déclencheur qui utilisera une requête interne
+-- afin de vérifier les conditions mentionnées.
+
+-- 4. Il ne faut pas pouvoir rentrer une heure non valide ou une journée non valis dans la table Jour et Heure.
+-- Ainsi, puisque ceci est une contrainte assez simple, il est possible de le faire directement dans la base
+-- de données grâce aux contraintes SQL. Par contre, alternativement, on peut aussi entrer les données initiales
+-- qui ne changeront pas (puisque les jours de la semaine et les heures de la journée ne changent pas) et ensuite
+-- empêcher (annuler) toute modification, ajout ou retrait grâce à un déclencheur.
+
+-- 5. Il faut empêcher la modification du sigle et du titre d'un cours. Ceci est important, afin de garder une liste
+-- de cours stable et retraçable. Pour remplir cette contrainte, il est possible d'utiliser un déclencheur qui va
+-- empêcher toute modification de ces deux champs en remplaçant dans la requête la nouvelle valeur par l'ancienne.
+-- Par contre, ceci n'est pas optimal, car il est possible qu'on veuille donner la permission à certaines personnes
+-- (ex.: un département, un professeur ou autre) de modifier ces champs. Il serait donc plus optimal d'utiliser un
+-- système de permissions afin de contrôler les droits d'accès à certaines tables ou champs.
