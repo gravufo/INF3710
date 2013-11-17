@@ -77,6 +77,14 @@ public class SelectionMethode
 				case 3:
 					break;
 				case 4:
+					try
+					{
+						connection.close();
+					}
+					catch (SQLException e)
+					{
+						e.printStackTrace();
+					}
 					System.exit(0);
 					break;
 				default:

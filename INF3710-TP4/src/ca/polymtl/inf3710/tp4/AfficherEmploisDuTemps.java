@@ -1,12 +1,10 @@
 package ca.polymtl.inf3710.tp4;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 public class AfficherEmploisDuTemps
 {
@@ -21,11 +19,13 @@ public class AfficherEmploisDuTemps
 	{
 		try
 		{
-			BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+			Scanner scan = new Scanner(System.in);
 			
 			System.out.println("Veuillez entrer le sigle du cours désiré:");
 			
-			String sigle = bufferRead.readLine();
+			String sigle = scan.next();
+			
+			scan.close();
 			
 			Statement stmt = connection.createStatement();
 			ResultSet result = stmt.executeQuery("SELECT c.titre, c.nbCredit, c.cycle, d.nom AS nomDept, p.nom AS nomPers, p.prenom " +
@@ -73,10 +73,6 @@ public class AfficherEmploisDuTemps
 			stmt.close();
 		}
 		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
