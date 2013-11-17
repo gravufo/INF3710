@@ -1,11 +1,9 @@
 package ca.polymtl.inf3710.tp4;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class SelectionMethode
 {
@@ -18,7 +16,8 @@ public class SelectionMethode
 	 */
 	public static void main(String[] args)
 	{
-		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+		// BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+		Scanner scan = new Scanner(System.in);
 		
 		do
 		{
@@ -50,19 +49,19 @@ public class SelectionMethode
 			int methodeSelectionnee = 0;
 			
 			System.out.println("Voici la liste des méthodes disponibles: \n"
-			                   + "1. Afficher l'emploi du temps d'un cours\n"
-			                   + "2. Mettre à jour une section\n"
-			                   + "3. Mettre à jour l'emploi du temps d'une section\n"
-			                   + "4. Quitter\n\n"
+			                   + "1. Afficher l'emploi du temps d'un cours\n" + "2. Mettre à jour une section\n"
+			                   + "3. Mettre à jour l'emploi du temps d'une section\n" + "4. Quitter\n\n"
 			                   + "Veuillez entrer le chiffre correspondant à la fonction désirée:");
-			try
-			{
-				methodeSelectionnee = Integer.parseInt(bufferRead.readLine());
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			// try
+			// {
+			// methodeSelectionnee = Integer.parseInt(bufferRead.readLine());
+			// }
+			// catch (IOException e)
+			// {
+			// e.printStackTrace();
+			// }
+			
+			methodeSelectionnee = scan.nextInt();
 			
 			switch (methodeSelectionnee)
 			{
@@ -85,6 +84,7 @@ public class SelectionMethode
 					{
 						e.printStackTrace();
 					}
+					scan.close();
 					System.exit(0);
 					break;
 				default:
