@@ -46,13 +46,18 @@ ON
 	Seance
 FOR EACH ROW
 BEGIN
-	SELECT idPers, sigle, leType, groupe
-	FROM Enseigner e, Seance s
-	WHERE :NEW.sigle = e.sigle
-	AND e.sigle = s.sigle
-	AND s.codJour = :NEW.codJour
-	AND s.codJour != :OLD.codJour
-	AND s.codHeure 
+
+	if(0 <	(SELECT COUNT(e.idPers, e.sigle, s.leType, s.groupe)
+				FROM Enseigner e, Seance s, Cours c
+				WHERE e.idPers = c.idPers
+				AND e.sigle = s.sigle
+				AND e.sigle = c.sigle
+				AND s.codJour = :NEW.codJour
+				AND s.codJour != :OLD.codJour
+				AND s.codHeure ))
+	THEN
+		RAISE_APPLICATION_ERROR(-20101,'Il y a un conflit d\'horaire');
+
 END;
 
 --  Pour le point (b), on vous signale que plusieurs actions menacent la contrainte, pas seulement
