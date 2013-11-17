@@ -57,7 +57,7 @@ public class MettreAJourUneSection
 			
 			infoCours.close();
 			
-			// TODO Obtention des prérequis
+			// Obtention des prérequis
 			String prerequis = "";
 			ResultSet infoPrerequis = stmt.executeQuery("SELECT preRequis FROM Prerequis WHERE cours = 'INF3710'");
 			
@@ -72,16 +72,17 @@ public class MettreAJourUneSection
 			
 			// Affichage des information de chacune des sections, triée par type
 			ResultSet infoSection = stmt.executeQuery("SELECT leType, groupe FROM Section WHERE sigle = '" + sigle
-			                                          + "'");
+			                                          + "' ORDER BY leType, groupe");
 			
 			while (infoSection.next())
 			{
 				String type = infoSection.getString("leType");
 				int groupe = infoSection.getInt("groupe");
-				ResultSet resultatEnseignant = stmt.executeQuery("SELECT nom, prenom FROM Enseigner e, Personne p "
-				                                                 + "WHERE e.idPers = p.idPers AND sigle ='" + sigle
-				                                                 + "' " + "AND leType = '" + type + "' AND groupe = '"
-				                                                 + groupe + "'");
+				Statement stmtTemp = connection.createStatement();
+				ResultSet resultatEnseignant = stmtTemp.executeQuery("SELECT nom, prenom FROM Enseigner e, Personne p "
+				                                                     + "WHERE e.idPers = p.idPers AND sigle ='" + sigle
+				                                                     + "' " + "AND leType = '" + type
+				                                                     + "' AND groupe = '" + groupe + "'");
 				
 				String enseigant = "";
 				
@@ -99,43 +100,30 @@ public class MettreAJourUneSection
 					type = "Cours";
 				
 				System.out.println("Type: " + type + System.lineSeparator() + "Groupe: " + groupe
-				                   + System.lineSeparator() + "Enseignant(s): " + enseigant);
+				                   + System.lineSeparator() + "Enseignant(s): " + enseigant + System.lineSeparator());
+				stmtTemp.close();
 			}
 			
-			// TODO
-			// Affichage des information de chacune des sections, triée par type
-			// Type, groupe, enseignants
-			// SELECT s.leType, s.groupe, p.nom, p.prenom FROM Section s, Enseigner e, Personne p WHERE s.sigle =
-			// e.sigle AND s.leType = e.leType AND s.groupe = e.groupe AND e.idPers = p.idPers AND s.sigle ='INF1995';
-			
-			// TODO
-			// Choix d'action
-			// TODO
-			// Créer une section?
+			// TODO Choix d'action
+			// TODO Créer une section?
 			// Type?
 			// Numéro?
 			// Enseignant(s)?
 			
-			// TODO
-			// Supprimer un section?
+			// TODO Supprimer un section?
 			// Type?
 			// Numéro?
 			
-			// TODO
-			// Modifier une section?
+			// TODO Modifier une section?
 			// Laquel?
 			// Type?
 			// Numéro?
-			// TODO
-			// Modifier le Type?
-			// TODO
-			// Modifier le numero?
-			// TODO
-			// Ajouter enseigant?
+			// TODO Modifier le Type?
+			// TODO Modifier le numero?
+			// TODO Ajouter enseigant?
 			// NOm?
 			// Prenom?
-			// TODO
-			// Supprimer enseigant
+			// TODO Supprimer enseigant
 			// Nom?
 			// Prenom?
 			
