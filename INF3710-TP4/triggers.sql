@@ -46,7 +46,13 @@ ON
 	Seance
 FOR EACH ROW
 BEGIN
-	
+	SELECT idPers, sigle, leType, groupe
+	FROM Enseigner e, Seance s
+	WHERE :NEW.sigle = e.sigle
+	AND e.sigle = s.sigle
+	AND s.codJour = :NEW.codJour
+	AND s.codJour != :OLD.codJour
+	AND s.codHeure 
 END;
 
 --  Pour le point (b), on vous signale que plusieurs actions menacent la contrainte, pas seulement
