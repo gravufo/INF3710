@@ -28,7 +28,7 @@ public class AfficherEmploisDuTemps
 			String sigle = bufferRead.readLine();
 			
 			Statement stmt = connection.createStatement();
-			ResultSet result = stmt.executeQuery("SELECT c.titre, c.nbCredit, c.cycle, d.nom AS nomDept, p.nom AS nomPers " +
+			ResultSet result = stmt.executeQuery("SELECT c.titre, c.nbCredit, c.cycle, d.nom AS nomDept, p.nom AS nomPers, p.prenom " +
 					"FROM Cours c, Departement d, Personne p " +
 					"WHERE c.idPers = p.idPers AND " +
 					"c.sigle = '" + sigle + "' AND " +
@@ -40,8 +40,17 @@ public class AfficherEmploisDuTemps
 						+ "Titre du cours: " + result.getString("titre") + "\n"
 						+ "Nombre de credits: " + result.getString("nbCredit") + "\n"
 						+ "Cycle: " + result.getString("cycle") + "\n"
-						+ "Responsable(s): " + result.getString("nomPers") + "\n"
-						+ "Departement(s): " + result.getString("nomDept") + "\n");
+						+ "Responsable(s): " + result.getString("nomPers") + ", " + result.getString("prenom") + "\n"
+						+ "Departement(s): " + result.getString("nomDept"));
+			}
+			
+			result = stmt.executeQuery("SELECT * " +
+					"FROM Prerequis " +
+					"WHERE cours = '" + sigle + "'");
+			
+			while(result.next())
+			{
+				System.out.println("Prerequis: " + result.getString("preRequis") + "\n");
 			}
 			
 			result = stmt.executeQuery("SELECT * " +

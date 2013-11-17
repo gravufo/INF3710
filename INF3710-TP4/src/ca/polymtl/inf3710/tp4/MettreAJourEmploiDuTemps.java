@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 public class MettreAJourEmploiDuTemps
 {
@@ -21,34 +22,58 @@ public class MettreAJourEmploiDuTemps
 	{
 		try
 		{
-			BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+			Scanner scan = new Scanner(System.in);
 			
 			System.out.println("Veuillez entrer le sigle du cours a supprimer:");
 			
-			String sigle = bufferRead.readLine();
-			
-			System.out.println("Veuillez entrer le titre du cours désiré:");
-			
-			String titre = bufferRead.readLine();
+			String sigle = scan.next();
 			
 			Statement stmt = connection.createStatement();
 			
-			// todo
-			ResultSet result = stmt.executeQuery("SELECT c.titre, c.nbCredit, c.cycle, d.nom AS nomDept, p.nom AS nomPers " +
-					"FROM Cours c, Departement d, Personne p " +
-					"WHERE c.idPers = p.idPers AND " +
-					"c.sigle = '" + sigle + "' AND " +
-					"c.idDept = d.idDept");
+			ResultSet result = stmt.executeQuery("SELECT * " +
+					"FROM Seance s, Jour j, Heure h " +
+					"WHERE sigle = '" + sigle + "' AND " +
+							"s.codJour = j.codJour AND " +
+							"s.codHeure = h.codHre");
 			
 			while (result.next())
 			{
-				// todo
-				System.out.println("\nSigle: " + sigle + "\n"
-						+ "Titre du cours: " + result.getString("titre") + "\n"
-						+ "Nombre de credits: " + result.getString("nbCredit") + "\n"
-						+ "Cycle: " + result.getString("cycle") + "\n"
-						+ "Responsable(s): " + result.getString("nomPers") + "\n"
-						+ "Departement(s): " + result.getString("nomDept") + "\n");
+				System.out.println("Type: " + result.getString("leType")+ "\n"
+						+ "Groupe: " + result.getString("groupe") + "\n"
+						+ "Jour: " + result.getString("nom") + "\n"
+						+ "Heure: " + result.getString("hre") + "\n"
+						+ "Alternance: " + result.getString("alternance") + "\n"
+						+ "Local: " + result.getString("lelocal") + "\n");
+			}
+			
+			System.out.println("Voici les options disponibles:\n" +
+					"1. Modifier une seance\n" +
+					"2. Ajouter une seance\n" +
+					"3. Supprimer une seance\n" +
+					"4. Retourner au menu principal\n" +
+					"Veuillez entrer le chiffre correspondant a l'option desiree:");
+			
+			int choix = scan.nextInt();
+			
+			while(choix < 1 || choix > 4)
+			{
+				System.out.println("La valeur entree est invalide. Veuillez entrer une valeur entre 1 et 4");
+				choix = scan.nextInt();
+			}
+			
+			switch(choix)
+			{
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			default:
+				
+				break;
 			}
 			
 			String reponse;
@@ -56,7 +81,7 @@ public class MettreAJourEmploiDuTemps
 			{
 				System.out.println("Voulez-vous envoyer les changements (COMMIT) (o ou n)?");
 				
-				reponse = bufferRead.readLine();
+				reponse = scan.next();
 				
 				if(reponse != "o" && reponse != "n")
 				{
@@ -72,10 +97,6 @@ public class MettreAJourEmploiDuTemps
 			{
 				connection.rollback();
 			}
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
 		}
 		catch (SQLException e)
 		{
