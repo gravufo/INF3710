@@ -40,9 +40,9 @@ public class MettreAJourEmploiDuTemps
 				{
 					System.out.println("Type: " + result.getString("leType") + "\n" + "Groupe: "
 					                   + result.getString("groupe") + "\n" + "Jour: " + result.getString("nom") + "\n"
-					                   + "Heure: " + result.getString("hre") + "\n"
-					                   + "Duree: " + result.getString("duree") + "\n"
-					                   + "Alternance: " + result.getString("alternance") + "\n" + "Local: "
+					                   + "Heure: " + result.getString("hre") + "\n" + "Duree: "
+					                   + result.getString("duree") + "\n" + "Alternance: "
+					                   + result.getString("alternance") + "\n" + "Local: "
 					                   + result.getString("lelocal") + "\n");
 				}
 				
@@ -91,18 +91,9 @@ public class MettreAJourEmploiDuTemps
 	{
 		Scanner scan = new Scanner(System.in);
 		
-		String groupe,
-				leType,
-				jour,
-				heure,
-				alternance;
-
-		String nouveauDuree,
-				nouveauLocal,
-				nouveauJour,
-				nouveauHeure,
-				nouveauAlternance;
+		String groupe, leType, jour, heure, alternance;
 		
+		String nouveauDuree, nouveauLocal, nouveauJour, nouveauHeure, nouveauAlternance;
 		
 		System.out.println("Veuillez entrer le numero du groupe que vous voulez modifier:");
 		groupe = scan.next();
@@ -128,35 +119,31 @@ public class MettreAJourEmploiDuTemps
 		
 		try
 		{
-			ResultSet resultat = stmt.executeQuery("UPDATE Seance " +
-					"SET lelocal = '" + nouveauLocal + "', " +
-					"duree = '" + nouveauDuree+ "', " +
-					"codJour = (SELECT codJour FROM Jour WHERE nom = '" + nouveauJour + "'), " +
-					"codHeure = (SELECT codHre FROM Heure WHERE hre = '" + nouveauHeure + "'), " +
-					"alternance = '" + nouveauAlternance +
-					"' WHERE groupe = '" + groupe + "' AND " +
-					"sigle = '" + sigle + "' AND " +
-					"leType = '" + leType + "' AND " +
-					"codJour = (SELECT codJour FROM Jour WHERE nom = '" + jour + "') AND " +
-					"codHeure = (SELECT codHre FROM Heure WHERE hre = '" + heure + "') AND " +
-					"alternance = '" + alternance + "'");
+			ResultSet resultat = stmt.executeQuery("UPDATE Seance " + "SET lelocal = '" + nouveauLocal + "', "
+			                                       + "duree = '" + nouveauDuree + "', "
+			                                       + "codJour = (SELECT codJour FROM Jour WHERE nom = '" + nouveauJour
+			                                       + "'), " + "codHeure = (SELECT codHre FROM Heure WHERE hre = '"
+			                                       + nouveauHeure + "'), " + "alternance = '" + nouveauAlternance
+			                                       + "' WHERE groupe = '" + groupe + "' AND " + "sigle = '" + sigle
+			                                       + "' AND " + "leType = '" + leType + "' AND "
+			                                       + "codJour = (SELECT codJour FROM Jour WHERE nom = '" + jour
+			                                       + "') AND " + "codHeure = (SELECT codHre FROM Heure WHERE hre = '"
+			                                       + heure + "') AND " + "alternance = '" + alternance + "'");
 			
-			resultat = stmt.executeQuery("SELECT * FROM Seance s, Jour j, Heure h WHERE " +
-					"s.sigle = '" + sigle + "' AND " +
-					"s.codHeure = h.codHre AND " +
-					"s.codJour = j.codJour AND " +
-					"s.leType = '" + leType + "' AND " +
-					"s.codJour = (SELECT codJour FROM Jour WHERE nom = '" + nouveauJour + "') AND " +
-					"s.codHeure = (SELECT codHre FROM Heure WHERE hre = '" + nouveauHeure + "') AND " +
-					"s.alternance = '" + nouveauAlternance + "'");
+			resultat = stmt.executeQuery("SELECT * FROM Seance s, Jour j, Heure h WHERE " + "s.sigle = '" + sigle
+			                             + "' AND " + "s.codHeure = h.codHre AND " + "s.codJour = j.codJour AND "
+			                             + "s.leType = '" + leType + "' AND "
+			                             + "s.codJour = (SELECT codJour FROM Jour WHERE nom = '" + nouveauJour
+			                             + "') AND " + "s.codHeure = (SELECT codHre FROM Heure WHERE hre = '"
+			                             + nouveauHeure + "') AND " + "s.alternance = '" + nouveauAlternance + "'");
 			
-			while(resultat.next())
+			while (resultat.next())
 			{
 				System.out.println("Type: " + resultat.getString("leType") + "\n" + "Groupe: "
 				                   + resultat.getString("groupe") + "\n" + "Jour: " + resultat.getString("nom") + "\n"
-				                   + "Heure: " + resultat.getString("hre") + "\n"
-				                   + "Duree: " + resultat.getString("duree") + "\n"
-				                   + "Alternance: " + resultat.getString("alternance") + "\n" + "Local: "
+				                   + "Heure: " + resultat.getString("hre") + "\n" + "Duree: "
+				                   + resultat.getString("duree") + "\n" + "Alternance: "
+				                   + resultat.getString("alternance") + "\n" + "Local: "
 				                   + resultat.getString("lelocal") + "\n");
 			}
 		}
@@ -170,15 +157,10 @@ public class MettreAJourEmploiDuTemps
 	
 	private void ajouterSeance()
 	{
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		
-		String groupe,
-				leType,
-				jour,
-				heure,
-				alternance,
-				lelocal,
-				duree;
+		String groupe, leType, jour, heure, alternance, lelocal, duree;
 		
 		System.out.println("Veuillez entrer le groupe a assigner a la seance");
 		groupe = scan.next();
@@ -197,14 +179,24 @@ public class MettreAJourEmploiDuTemps
 		
 		try
 		{
-			ResultSet resultat = stmt.executeQuery("SELECT * FROM Jour j, Heure h WHERE hre = '" + heure + "' AND nom = '" + jour + "'");
+			ResultSet resultat = stmt.executeQuery("SELECT * FROM Jour j, Heure h WHERE hre = '" + heure
+			                                       + "' AND nom = '" + jour + "'");
 			resultat.next();
+
 			int codJour = resultat.getInt("codJour"),
 					codHeure = resultat.getInt("codHre");
 			
-			stmt.executeQuery("INSERT INTO Seance (sigle, leType, groupe, codJour, codHeure, alternance, duree, lelocal) " +
-					"VALUES ('" + sigle + "', '" + leType + "', '" + groupe + "', '" + codJour + "', '" + codHeure
-					+ "', '" + alternance + "', '" + duree + "', '" + lelocal + "')");
+			stmt.executeQuery("INSERT INTO Seance (sigle, leType, groupe, codJour, codHeure, alternance, duree, lelocal) "
+			                  + "VALUES ('"
+			                  + sigle
+			                  + "', '"
+			                  + leType
+			                  + "', '"
+			                  + groupe
+			                  + "', '"
+			                  + codJour
+			                  + "', '"
+			                  + codHeure + "', '" + alternance + "', '" + duree + "', '" + lelocal + "')");
 			
 			System.out.println("Vous avez ajoute la seance");
 		}
@@ -218,13 +210,10 @@ public class MettreAJourEmploiDuTemps
 	
 	private void supprimerSeance()
 	{
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		
-		String groupe,
-				leType,
-				jour,
-				heure,
-				alternance;
+		String groupe, leType, jour, heure, alternance;
 		
 		System.out.println("Veuillez entrer le groupe de la seance a supprimer");
 		groupe = scan.next();
@@ -239,18 +228,17 @@ public class MettreAJourEmploiDuTemps
 		
 		try
 		{
-			ResultSet resultat = stmt.executeQuery("SELECT * FROM Jour j, Heure h WHERE hre = '" + heure + "' AND nom = '" + jour + "'");
+			ResultSet resultat = stmt.executeQuery("SELECT * FROM Jour j, Heure h WHERE hre = '" + heure
+			                                       + "' AND nom = '" + jour + "'");
 			resultat.next();
+
 			int codJour = resultat.getInt("codJour"),
 					codHeure = resultat.getInt("codHre");
 			
-			resultat = stmt.executeQuery("DELETE FROM Seance " +
-					"WHERE groupe = '" + groupe + "' AND " +
-					"sigle = '" + sigle + "' AND " +
-					"leType = '" + leType + "' AND " +
-					"codJour = '" + codJour + "' AND " +
-					"codHeure = '" + codHeure + "' AND " +
-					"alternance = '" + alternance + "'");
+			resultat = stmt.executeQuery("DELETE FROM Seance " + "WHERE groupe = '" + groupe + "' AND " + "sigle = '"
+			                             + sigle + "' AND " + "leType = '" + leType + "' AND " + "codJour = '"
+			                             + codJour + "' AND " + "codHeure = '" + codHeure + "' AND " + "alternance = '"
+			                             + alternance + "'");
 			
 			System.out.println("La seance a ete supprimee!");
 		}
@@ -292,7 +280,7 @@ public class MettreAJourEmploiDuTemps
 			}
 		}
 		catch (SQLException e)
-		{   
+		{
 			e.printStackTrace();
 		}
 	}
