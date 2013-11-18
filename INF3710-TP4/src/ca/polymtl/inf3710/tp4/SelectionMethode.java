@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class SelectionMethode
 {
-	static String     username   = "INF3710-133-32";
-	static String     password   = "URLNHW";
+	static String     username   = "";
+	static String     password   = "";
 	static Connection connection = null;
 	
 	/**
@@ -23,11 +23,11 @@ public class SelectionMethode
 		{
 			System.out.println("Veuillez entrer le nom d'usager:");
 			
-			// username = scan.next();
+			username = scan.next();
 			
 			System.out.println("Veuillez entrer le mot de passe du compte:");
 			
-			// password = scan.next();
+			password = scan.next();
 			
 		} while (!initialiserConnection());
 		
