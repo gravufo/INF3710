@@ -49,10 +49,12 @@ public class SelectionMethode
 					a.executer();
 					break;
 				case 2:
-					MettreAJourUneSection m = new MettreAJourUneSection(connection);
-					m.executer();
+					MettreAJourUneSection b = new MettreAJourUneSection(connection);
+					b.executer();
 					break;
 				case 3:
+					MettreAJourEmploiDuTemps c = new MettreAJourEmploiDuTemps(connection);
+					c.executer();
 					break;
 				case 4:
 					try

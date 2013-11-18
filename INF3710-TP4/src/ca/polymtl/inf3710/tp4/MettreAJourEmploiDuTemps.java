@@ -130,19 +130,19 @@ public class MettreAJourEmploiDuTemps
 		
 		try
 		{
-			ResultSet resultat = stmt.executeQuery("UPDATE Seance s, Jour j, Heure h " +
-					"SET groupe = " + nouveauGroupe + " AND " +
-							"s.leType = " + nouveauLeType + " AND " +
-							"s.codJour = j.codJour" + " AND " +
-							"s.codHeure = h.codHre" + " AND " +
-							"s.alternance = " + nouveauAlternance +
-							" WHERE j.nom = " + nouveauJour + " AND " +
-							"h.hre = " + nouveauHeure + " AND " +
-							"s.groupe = " + groupe + " AND " +
-							"s.leType = " + leType + " AND " +
-							"s.codJour = (SELECT codJour FROM Jour WHERE nom = " + jour + ") AND " +
-							"s.codHeure = (SELECT codHre FROM Heure WHERE hre = " + heure + ") AND " +
-							"s.alternance = " + alternance);
+			ResultSet resultat = stmt.executeQuery("UPDATE Seance " +
+					"SET groupe = '" + nouveauGroupe + "', " +
+					"leType = '" + nouveauLeType + "', " +
+					"codJour = (SELECT codJour FROM Jour WHERE nom = '" + jour + "'), " +
+					"codHeure = (SELECT codHre FROM Heure WHERE hre = '" + heure + "'), " +
+					"alternance = '" + nouveauAlternance +
+					"' WHERE j.nom = '" + nouveauJour + "', " +
+					"hre = '" + nouveauHeure + "', " +
+					"groupe = '" + groupe + "', " +
+					"leType = '" + leType + "', " +
+					"codJour = (SELECT codJour FROM Jour WHERE nom = '" + jour + "'), " +
+					"codHeure = (SELECT codHre FROM Heure WHERE hre = '" + heure + "'), " +
+					"alternance = '" + alternance + "'");
 		}
 		catch (SQLException e)
 		{
