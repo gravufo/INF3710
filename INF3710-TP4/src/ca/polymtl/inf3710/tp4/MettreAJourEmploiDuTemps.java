@@ -40,8 +40,9 @@ public class MettreAJourEmploiDuTemps
 				{
 					System.out.println("Type: " + result.getString("leType") + "\n" + "Groupe: "
 					                   + result.getString("groupe") + "\n" + "Jour: " + result.getString("nom") + "\n"
-					                   + "Heure: " + result.getString("hre") + "\n" + "Alternance: "
-					                   + result.getString("alternance") + "\n" + "Local: "
+					                   + "Heure: " + result.getString("hre") + "\n"
+					                   + "Duree: " + result.getString("duree") + "\n"
+					                   + "Alternance: " + result.getString("alternance") + "\n" + "Local: "
 					                   + result.getString("lelocal") + "\n");
 				}
 				
@@ -99,8 +100,8 @@ public class MettreAJourEmploiDuTemps
 				heure,
 				alternance;
 
-		String nouveauGroupe,
-				nouveauLeType,
+		String nouveauDuree,
+				nouveauLocal,
 				nouveauJour,
 				nouveauHeure,
 				nouveauAlternance;
@@ -117,30 +118,50 @@ public class MettreAJourEmploiDuTemps
 		System.out.println("Veuillez entrer l'alternance du groupe que vous voulez modifier (B1 ou B2 ou HE):");
 		alternance = scan.next();
 		
-		System.out.println("Veuillez entrer le numero de groupe a assigner:");
-		nouveauGroupe = scan.next();
-		System.out.println("Veuillez entrer le type de la seance a assigner (C ou L):");
-		nouveauLeType = scan.next();
-		System.out.println("Veuillez entrer le jour de la seance a assigner (lundi...vendredi):");
+		System.out.println("Veuillez entrer le jour de la seance a assigner a la seance (lundi...vendredi):");
 		nouveauJour = scan.next();
-		System.out.println("Veuillez entrer l'heure de la seance a assigner (ex.: 9h30):");
+		System.out.println("Veuillez entrer l'heure de la seance a assigner a la seance (ex.: 9h30):");
 		nouveauHeure = scan.next();
-		System.out.println("Veuillez entrer l'alternance du groupe a assigner (B1 ou B2 ou HE):");
+		System.out.println("Veuillez entrer la duree a assigner a la seance:");
+		nouveauDuree = scan.next();
+		System.out.println("Veuillez entrer l'alternance du groupe a assigner a la seance (B1 ou B2 ou HE):");
 		nouveauAlternance = scan.next();
+		System.out.println("Veuillez entrer le local a assigner a la seance:");
+		nouveauLocal = scan.next();
 		
 		try
 		{
 			ResultSet resultat = stmt.executeQuery("UPDATE Seance " +
-					"SET groupe = '" + nouveauGroupe + "', " +
-					"leType = '" + nouveauLeType + "', " +
-					"codJour = (SELECT codJour FROM Jour WHERE nom = '" + jour + "'), " +
-					"codHeure = (SELECT codHre FROM Heure WHERE hre = '" + heure + "'), " +
+					"SET lelocal = '" + nouveauLocal + "', " +
+					"duree = '" + nouveauDuree+ "', " +
+					"codJour = (SELECT codJour FROM Jour WHERE nom = '" + nouveauJour + "'), " +
+					"codHeure = (SELECT codHre FROM Heure WHERE hre = '" + nouveauHeure + "'), " +
 					"alternance = '" + nouveauAlternance +
 					"' WHERE groupe = '" + groupe + "' AND " +
+					"sigle = '" + sigle + "' AND " +
 					"leType = '" + leType + "' AND " +
 					"codJour = (SELECT codJour FROM Jour WHERE nom = '" + jour + "') AND " +
 					"codHeure = (SELECT codHre FROM Heure WHERE hre = '" + heure + "') AND " +
 					"alternance = '" + alternance + "'");
+			
+			resultat = stmt.executeQuery("SELECT * FROM Seance s, Jour j, Heure h WHERE " +
+					"s.sigle = '" + sigle + "' AND " +
+					"s.codHeure = h.codHre AND " +
+					"s.codJour = j.codJour AND " +
+					"s.leType = '" + leType + "' AND " +
+					"s.codJour = (SELECT codJour FROM Jour WHERE nom = '" + nouveauJour + "') AND " +
+					"s.codHeure = (SELECT codHre FROM Heure WHERE hre = '" + nouveauHeure + "') AND " +
+					"s.alternance = '" + nouveauAlternance + "'");
+			
+			while(resultat.next())
+			{
+				System.out.println("Type: " + resultat.getString("leType") + "\n" + "Groupe: "
+				                   + resultat.getString("groupe") + "\n" + "Jour: " + resultat.getString("nom") + "\n"
+				                   + "Heure: " + resultat.getString("hre") + "\n"
+				                   + "Duree: " + resultat.getString("duree") + "\n"
+				                   + "Alternance: " + resultat.getString("alternance") + "\n" + "Local: "
+				                   + resultat.getString("lelocal") + "\n");
+			}
 		}
 		catch (SQLException e)
 		{
@@ -170,15 +191,15 @@ public class MettreAJourEmploiDuTemps
 			
 			reponse = scan.next();
 			
-			if (reponse != "o" && reponse != "n")
+			if (reponse.equalsIgnoreCase("o") && reponse.equalsIgnoreCase("n"))
 			{
 				System.out.println("Erreur, veuillez entrer 'o' ou 'n'.");
 			}
-		} while (reponse != "o" && reponse != "n");
+		} while (reponse.equalsIgnoreCase("o") && reponse.equalsIgnoreCase("n"));
 		
 		try
 		{
-			if (reponse == "o")
+			if (reponse.equals("o"))
 			{
 				connection.commit();
 			}

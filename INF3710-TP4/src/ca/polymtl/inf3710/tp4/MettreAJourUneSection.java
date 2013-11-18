@@ -307,17 +307,17 @@ public class MettreAJourUneSection
 			
 			reponse = scan.next();
 			
-			if (reponse != "o" && reponse != "n")
+			if (reponse.equalsIgnoreCase("o") && reponse.equalsIgnoreCase("n"))
 			{
 				System.out.println("Erreur, veuillez entrer 'o' ou 'n'.");
 			}
-		} while (reponse != "o" && reponse != "n");
+		} while (reponse.equalsIgnoreCase("o") && reponse.equalsIgnoreCase("n"));
 		
 		scan.close();
 		
 		try
 		{
-			if (reponse == "o")
+			if (reponse.equals("o"))
 			{
 				connection.commit();
 			}
