@@ -211,15 +211,7 @@ public class MettreAJourEmploiDuTemps
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		
-<<<<<<< HEAD
-		String groupe,
-				leType,
-				jour,
-				heure,
-				alternance;
-=======
 		String groupe, leType, jour, heure, alternance;
->>>>>>> int and stuff
 		
 		System.out.println("Veuillez entrer le groupe de la seance a supprimer");
 		groupe = scan.next();
@@ -237,7 +229,7 @@ public class MettreAJourEmploiDuTemps
 			ResultSet resultat = stmt.executeQuery("SELECT * FROM Jour j, Heure h WHERE hre = '" + heure
 			                                       + "' AND nom = '" + jour + "'");
 			resultat.next();
-			String codJour = resultat.getString("codJour"), codHeure = resultat.getString("codHre");
+			int codJour = resultat.getInt("codJour"), codHeure = resultat.getInt("codHre");
 			
 			resultat = stmt.executeQuery("DELETE FROM Seance " + "WHERE groupe = '" + groupe + "' AND " + "sigle = '"
 			                             + sigle + "' AND " + "leType = '" + leType + "' AND " + "codJour = '"
