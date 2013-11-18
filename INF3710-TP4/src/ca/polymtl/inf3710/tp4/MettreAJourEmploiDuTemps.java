@@ -63,15 +63,12 @@ public class MettreAJourEmploiDuTemps
 				{
 					case 1:
 						modifierSeance();
-						verifierRequete();
 						break;
 					case 2:
 						ajouterSeance();
-						verifierRequete();
 						break;
 					case 3:
 						supprimerSeance();
-						verifierRequete();
 						break;
 					case 4:
 						continuer = false;
@@ -111,14 +108,14 @@ public class MettreAJourEmploiDuTemps
 		groupe = scan.next();
 		System.out.println("Veuillez entrer le type de la seance que vous voulez modifier (C ou L):");
 		leType = scan.next();
-		System.out.println("Veuillez entrer le jour de la seance que vous voulez modifier (lundi...vendredi):");
+		System.out.println("Veuillez entrer le jour de la seance que vous voulez modifier (Lundi...Vendredi):");
 		jour = scan.next();
-		System.out.println("Veuillez entrer l'heure de la seance que vous voulez modifier (ex.: 9h30):");
+		System.out.println("Veuillez entrer l'heure de la seance que vous voulez modifier (ex.: 09h30):");
 		heure = scan.next();
 		System.out.println("Veuillez entrer l'alternance du groupe que vous voulez modifier (B1 ou B2 ou HE):");
 		alternance = scan.next();
 		
-		System.out.println("Veuillez entrer le jour de la seance a assigner a la seance (lundi...vendredi):");
+		System.out.println("Veuillez entrer le jour de la seance a assigner a la seance (Lundi...Vendredi):");
 		nouveauJour = scan.next();
 		System.out.println("Veuillez entrer l'heure de la seance a assigner a la seance (ex.: 9h30):");
 		nouveauHeure = scan.next();
@@ -167,6 +164,8 @@ public class MettreAJourEmploiDuTemps
 		{
 			e.printStackTrace();
 		}
+		
+		verifierRequete();
 	}
 	
 	private void ajouterSeance()
@@ -185,9 +184,9 @@ public class MettreAJourEmploiDuTemps
 		groupe = scan.next();
 		System.out.println("Veuillez entrer le type de la seance que vous voulez ajouter (C ou L):");
 		leType = scan.next();
-		System.out.println("Veuillez entrer le jour a assigner a la seance (lundi...vendredi):");
+		System.out.println("Veuillez entrer le jour a assigner a la seance (Lundi...Vendredi):");
 		jour = scan.next();
-		System.out.println("Veuillez entrer l'heure a assigner a la seance (ex.: 9h30):");
+		System.out.println("Veuillez entrer l'heure a assigner a la seance (ex.: 09h30):");
 		heure = scan.next();
 		System.out.println("Veuillez entrer la duree a assigner a la seance:");
 		duree = scan.next();
@@ -213,6 +212,8 @@ public class MettreAJourEmploiDuTemps
 		{
 			e.printStackTrace();
 		}
+		
+		verifierRequete();
 	}
 	
 	private void supprimerSeance()
@@ -223,17 +224,15 @@ public class MettreAJourEmploiDuTemps
 				leType,
 				jour,
 				heure,
-				alternance,
-				lelocal,
-				duree;
+				alternance;
 		
 		System.out.println("Veuillez entrer le groupe de la seance a supprimer");
 		groupe = scan.next();
 		System.out.println("Veuillez entrer le type de la seance a supprimer (C ou L):");
 		leType = scan.next();
-		System.out.println("Veuillez entrer le jour de la seance a supprimer (lundi...vendredi):");
+		System.out.println("Veuillez entrer le jour de la seance a supprimer (Lundi...Vendredi):");
 		jour = scan.next();
-		System.out.println("Veuillez entrer l'heure de la seance a supprimer (ex.: 9h30):");
+		System.out.println("Veuillez entrer l'heure de la seance a supprimer (ex.: 09h30):");
 		heure = scan.next();
 		System.out.println("Veuillez entrer l'alternance de la seance a supprimer (B1 ou B2 ou HE):");
 		alternance = scan.next();
@@ -259,6 +258,8 @@ public class MettreAJourEmploiDuTemps
 		{
 			e.printStackTrace();
 		}
+		
+		verifierRequete();
 	}
 	
 	private void verifierRequete()
