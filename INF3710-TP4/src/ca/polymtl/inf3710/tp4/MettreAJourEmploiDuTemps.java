@@ -31,7 +31,7 @@ public class MettreAJourEmploiDuTemps
 				
 				System.out.println("Veuillez entrer le sigle du cours a mettre a jour:");
 				
-				sigle = scan.next();
+				sigle = scan.next().toUpperCase();
 				
 				result = stmt.executeQuery("SELECT * " + "FROM Seance s, Jour j, Heure h " + "WHERE sigle = '" + sigle
 				                           + "' AND " + "s.codJour = j.codJour AND " + "s.codHeure = h.codHre");

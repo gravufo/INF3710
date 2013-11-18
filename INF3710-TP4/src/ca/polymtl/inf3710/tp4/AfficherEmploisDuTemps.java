@@ -24,7 +24,7 @@ public class AfficherEmploisDuTemps
 			
 			System.out.println("Veuillez entrer le sigle du cours désiré:");
 			
-			String sigle = scan.next();
+			String sigle = scan.next().toUpperCase();
 			
 			Statement stmt = connection.createStatement();
 			ResultSet result = stmt.executeQuery("SELECT c.titre, c.nbCredit, c.cycle, d.nom AS nomDept, p.nom AS nomPers, p.prenom "
