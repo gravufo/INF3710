@@ -103,4 +103,6 @@ END;
 -- empêcher toute modification de ces deux champs en remplaçant dans la requête la nouvelle valeur par l'ancienne.
 -- Par contre, ceci n'est pas optimal, car il est possible qu'on veuille donner la permission à certaines personnes
 -- (ex.: un département, un professeur ou autre) de modifier ces champs. Il serait donc plus optimal d'utiliser un
+
+-- OMG ALTERNACE B1 B2
 -- système de permissions afin de contrôler les droits d'accès à certaines tables ou champs.
