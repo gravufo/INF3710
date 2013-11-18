@@ -231,7 +231,8 @@ public class MettreAJourUneSection
 	
 	private void ajouterEnseignant(String sigle, String type, int section)
 	{
-		// TODO Ajouter enseigant?
+		// Ajouter enseigant?
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		String nom, prenom = "";
 		System.out.println("Quel est le prenom de l'enseignant à ajouter?");
@@ -265,10 +266,23 @@ public class MettreAJourUneSection
 			                   + obtentionId.getInt("idPers") + "', '" + sigle + "', '" + type + "', '" + section
 			                   + "')");
 			
+			String fin = "Vous avez ajouté " + nom + ", " + prenom + " comme enseignant pour le groupe " + section
+			             + " de ";
+			if (type.equals("L"))
+			{
+				fin.concat("Travaux pratiques");
+			}
+			else
+			{
+				fin.concat("Cours");
+			}
+			fin.concat(" du cours " + sigle + ".");
+			
+			System.out.println(fin);
+			verifierRequete();
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -276,9 +290,52 @@ public class MettreAJourUneSection
 	
 	private void supprimerEnseigant(String sigle, String type, int section)
 	{
-		// TODO Supprimer enseigant
-		// Nom?
-		// Prenom?
+		// Supprimer enseigant
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		String nom, prenom = "";
+		System.out.println("Quel est le prenom de l'enseignant à supprimer?");
+		prenom = scan.next();
+		System.out.println("Quel est le nom de famille de l'enseignant à supprimer?");
+		nom = scan.next();
+		
+		try
+		{
+			Statement stmt = connection.createStatement();
+			
+			ResultSet obtentionId = stmt.executeQuery("SELECT e.idPers AS muhId FROM Enseigner e, Personne p "
+			                                          + "WHERE e.idPers = p.idPers AND sigle = '" + sigle
+			                                          + "' AND leType = '" + type + "' AND groupe = '" + section
+			                                          + "' AND prenom = '" + prenom + "' AND nom = '" + nom + "'");
+			if (!obtentionId.next())
+			{
+				System.out.println("Cet enseignant n'enseigne pas à cette section.");
+				return;
+			}
+			
+			stmt.executeUpdate("DELETE FROM Enseigner WHERE idPers = '" + obtentionId.getInt("muhId")
+			                   + "' AND sigle = '" + sigle + "' AND leType = '" + type + "' AND groupe = '" + section
+			                   + "'");
+			
+			String fin = "Vous avez supprimé " + nom + ", " + prenom + " comme enseignant pour le groupe " + section
+			             + " de ";
+			if (type.equals("L"))
+			{
+				fin.concat("Travaux pratiques");
+			}
+			else
+			{
+				fin.concat("Cours");
+			}
+			fin.concat(" du cours " + sigle + ".");
+			
+			System.out.println(fin);
+			verifierRequete();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	private void ajouterSection()
@@ -299,6 +356,7 @@ public class MettreAJourUneSection
 	private void verifierRequete()
 	{
 		String reponse;
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		
 		do
@@ -312,8 +370,6 @@ public class MettreAJourUneSection
 				System.out.println("Erreur, veuillez entrer 'o' ou 'n'.");
 			}
 		} while (reponse.equalsIgnoreCase("o") && reponse.equalsIgnoreCase("n"));
-		
-		scan.close();
 		
 		try
 		{
