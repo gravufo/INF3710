@@ -34,9 +34,9 @@ public class MettreAJourUneSection
 			do
 			{
 				
-				System.out.println("Veuillez entrer le sigle du cours concerné:");
+				System.out.println("Veuillez entrer le sigle du cours concerné: (ex: INF3710)");
 				
-				String sigle = scan.next();
+				String sigle = scan.next().toUpperCase();
 				
 				// Affichage des informations du cours
 				ResultSet infoCours = stmt.executeQuery("SELECT titre, nbCredit, cycle, "
@@ -56,6 +56,7 @@ public class MettreAJourUneSection
 				else
 				{
 					// scan.close();
+					System.out.println("Sigle de cours invalide.");
 					return;
 				}
 				
@@ -267,13 +268,13 @@ public class MettreAJourUneSection
 			             + " de ";
 			if (type.equals("L"))
 			{
-				fin.concat("Travaux pratiques");
+				fin += "Travaux pratiques";
 			}
 			else
 			{
-				fin.concat("Cours");
+				fin += "Cours";
 			}
-			fin.concat(" du cours " + sigle + ".");
+			fin += " du cours " + sigle + ".";
 			
 			System.out.println(fin);
 			verifierRequete();
@@ -318,13 +319,13 @@ public class MettreAJourUneSection
 			             + " de ";
 			if (type.equals("L"))
 			{
-				fin.concat("Travaux pratiques");
+				fin += "Travaux pratiques";
 			}
 			else
 			{
-				fin.concat("Cours");
+				fin += "Cours";
 			}
-			fin.concat(" du cours " + sigle + ".");
+			fin += " du cours " + sigle + ".";
 			
 			System.out.println(fin);
 			verifierRequete();
@@ -371,20 +372,20 @@ public class MettreAJourUneSection
 				return;
 			}
 			
-			// Suppression des séances lié
-			stmt.executeUpdate("INSERT INTO Enseigner(sigle, leType, groupe) VALUES ('" + sigle + "', '" + type
-			                   + "', '" + section + "')");
+			// Ajout de la section
+			stmt.executeUpdate("INSERT INTO Section (sigle, leType, groupe) VALUES ('" + sigle + "', '" + type + "', '"
+			                   + section + "')");
 			
 			String fin = "Vous avez ajouter la section " + section + " de ";
 			if (type.equals("L"))
 			{
-				fin.concat("Travaux pratiques");
+				fin += "Travaux pratiques";
 			}
 			else
 			{
-				fin.concat("Cours");
+				fin += "Cours";
 			}
-			fin.concat(" du cours " + sigle + ".");
+			fin += " du cours " + sigle + ".";
 			
 			System.out.println(fin);
 			verifierRequete();
@@ -440,16 +441,20 @@ public class MettreAJourUneSection
 			stmt.executeUpdate("DELETE FROM Enseigner WHERE sigle = '" + sigle + "' AND leType = '" + type
 			                   + "' AND groupe = '" + section + "'");
 			
+			// Suppression de la section
+			stmt.executeUpdate("DELETE FROM Section WHERE sigle = '" + sigle + "' AND leType = '" + type
+			                   + "' AND groupe = '" + section + "'");
+			
 			String fin = "Vous avez supprimé la section " + section + " de ";
 			if (type.equals("L"))
 			{
-				fin.concat("Travaux pratiques");
+				fin += "Travaux pratiques";
 			}
 			else
 			{
-				fin.concat("Cours");
+				fin += "Cours";
 			}
-			fin.concat(" du cours " + sigle + ".");
+			fin += " du cours " + sigle + ".";
 			
 			System.out.println(fin);
 			verifierRequete();
