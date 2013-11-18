@@ -132,15 +132,12 @@ public class MettreAJourUneSection
 				{
 					case 1:
 						modifierSection(sigle);
-						verifierRequete();
 						break;
 					case 2:
-						ajouterSection();
-						verifierRequete();
+						ajouterSection(sigle);
 						break;
 					case 3:
-						supprimerSection();
-						verifierRequete();
+						supprimerSection(sigle);
 						break;
 					case 4:
 						continuer = false;
@@ -165,7 +162,7 @@ public class MettreAJourUneSection
 		{
 			@SuppressWarnings("resource")
 			Scanner scan = new Scanner(System.in);
-			// TODO Modifier une section?
+			// Modifier une section?
 			String type = "";
 			do
 			{
@@ -338,7 +335,7 @@ public class MettreAJourUneSection
 		}
 	}
 	
-	private void ajouterSection()
+	private void ajouterSection(String sigle)
 	{
 		// TODO Créer une section?
 		// Type?
@@ -346,11 +343,69 @@ public class MettreAJourUneSection
 		// Enseignant(s)?
 	}
 	
-	private void supprimerSection()
+	private void supprimerSection(String sigle)
 	{
-		// TODO Supprimer un section?
-		// Type?
-		// Numéro?
+		// Supprimer un section?
+		try
+		{
+			@SuppressWarnings("resource")
+			Scanner scan = new Scanner(System.in);
+			// Modifier une section?
+			String type = "";
+			do
+			{
+				System.out.println("La section à modifier est-elle une section de travaux pratiques(L) ou de cours(C)?");
+				String entree = scan.next();
+				
+				if (entree.equalsIgnoreCase("c") || entree.equalsIgnoreCase("Cours"))
+					type = "C";
+				else if (entree.equalsIgnoreCase("L") || entree.equalsIgnoreCase("TP")
+				         || entree.equalsIgnoreCase("Travaux pratiques") || entree.equalsIgnoreCase("Lab")
+				         || entree.equalsIgnoreCase("Laboratoires"))
+					type = "L";
+			} while (type.isEmpty());
+			
+			System.out.println("Quel est le numéro de la section à modifier?");
+			int section = scan.nextInt();
+			
+			Statement stmt = connection.createStatement();
+			// Vérification
+			ResultSet verification = stmt.executeQuery("SELECT * FROM Section WHERE sigle = '" + sigle
+			                                           + "' AND leType = '" + type + "' AND groupe = '" + section
+			                                           + "' ORDER BY leType, groupe");
+			if (!verification.next())
+			{
+				System.out.println("Section invalide");
+				return;
+			}
+			
+			// Suppression des séances lié
+			stmt.executeUpdate("DELETE FROM Seance WHERE sigle = '" + sigle + "' AND leType = '" + type
+			                   + "' AND groupe = '" + section + "'");
+			
+			// Suppression des enseignement
+			stmt.executeUpdate("DELETE FROM Enseigner WHERE sigle = '" + sigle + "' AND leType = '" + type
+			                   + "' AND groupe = '" + section + "'");
+			
+			String fin = "Vous avez supprimé la section " + section + " de ";
+			if (type.equals("L"))
+			{
+				fin.concat("Travaux pratiques");
+			}
+			else
+			{
+				fin.concat("Cours");
+			}
+			fin.concat(" du cours " + sigle + ".");
+			
+			System.out.println(fin);
+			verifierRequete();
+			
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	private void verifierRequete()
