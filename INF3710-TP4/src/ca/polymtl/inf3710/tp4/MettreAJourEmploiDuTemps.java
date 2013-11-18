@@ -199,8 +199,8 @@ public class MettreAJourEmploiDuTemps
 		{
 			ResultSet resultat = stmt.executeQuery("SELECT * FROM Jour j, Heure h WHERE hre = '" + heure + "' AND nom = '" + jour + "'");
 			resultat.next();
-			String codJour = resultat.getString("codJour"),
-					codHeure = resultat.getString("codHre");
+			int codJour = resultat.getInt("codJour"),
+					codHeure = resultat.getInt("codHre");
 			
 			stmt.executeQuery("INSERT INTO Seance (sigle, leType, groupe, codJour, codHeure, alternance, duree, lelocal) " +
 					"VALUES ('" + sigle + "', '" + leType + "', '" + groupe + "', '" + codJour + "', '" + codHeure
@@ -241,8 +241,8 @@ public class MettreAJourEmploiDuTemps
 		{
 			ResultSet resultat = stmt.executeQuery("SELECT * FROM Jour j, Heure h WHERE hre = '" + heure + "' AND nom = '" + jour + "'");
 			resultat.next();
-			String codJour = resultat.getString("codJour"),
-					codHeure = resultat.getString("codHre");
+			int codJour = resultat.getInt("codJour"),
+					codHeure = resultat.getInt("codHre");
 			
 			resultat = stmt.executeQuery("DELETE FROM Seance " +
 					"WHERE groupe = '" + groupe + "' AND " +
