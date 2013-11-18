@@ -136,12 +136,10 @@ public class MettreAJourEmploiDuTemps
 					"codJour = (SELECT codJour FROM Jour WHERE nom = '" + jour + "'), " +
 					"codHeure = (SELECT codHre FROM Heure WHERE hre = '" + heure + "'), " +
 					"alternance = '" + nouveauAlternance +
-					"' WHERE j.nom = '" + nouveauJour + "', " +
-					"hre = '" + nouveauHeure + "', " +
-					"groupe = '" + groupe + "', " +
-					"leType = '" + leType + "', " +
-					"codJour = (SELECT codJour FROM Jour WHERE nom = '" + jour + "'), " +
-					"codHeure = (SELECT codHre FROM Heure WHERE hre = '" + heure + "'), " +
+					"' WHERE groupe = '" + groupe + "' AND " +
+					"leType = '" + leType + "' AND " +
+					"codJour = (SELECT codJour FROM Jour WHERE nom = '" + jour + "') AND " +
+					"codHeure = (SELECT codHre FROM Heure WHERE hre = '" + heure + "') AND " +
 					"alternance = '" + alternance + "'");
 		}
 		catch (SQLException e)
