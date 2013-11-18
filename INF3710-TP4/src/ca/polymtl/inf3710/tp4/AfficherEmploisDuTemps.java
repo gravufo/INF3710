@@ -26,8 +26,6 @@ public class AfficherEmploisDuTemps
 			
 			String sigle = scan.next();
 			
-			// scan.close();
-			
 			Statement stmt = connection.createStatement();
 			ResultSet result = stmt.executeQuery("SELECT c.titre, c.nbCredit, c.cycle, d.nom AS nomDept, p.nom AS nomPers, p.prenom "
 			                                     + "FROM Cours c, Departement d, Personne p "

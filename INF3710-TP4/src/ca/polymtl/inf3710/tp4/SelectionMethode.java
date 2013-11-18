@@ -23,25 +23,12 @@ public class SelectionMethode
 		{
 			System.out.println("Veuillez entrer le nom d'usager:");
 			
-			// try
-			// {
-			// username = bufferRead.readLine();
-			// }
-			// catch (IOException e1)
-			// {
-			// e1.printStackTrace();
-			// }
-			//
-			// System.out.println("Veuillez entrer le mot de passe du compte:");
-			//
-			// try
-			// {
-			// password = bufferRead.readLine();
-			// }
-			// catch (IOException e1)
-			// {
-			// e1.printStackTrace();
-			// }
+			//username = scan.next();
+			
+			System.out.println("Veuillez entrer le mot de passe du compte:");
+			
+			//password = scan.next();
+			
 		} while (!initialiserConnection());
 		
 		while (true)
@@ -52,14 +39,6 @@ public class SelectionMethode
 			                   + "1. Afficher l'emploi du temps d'un cours\n" + "2. Mettre à jour une section\n"
 			                   + "3. Mettre à jour l'emploi du temps d'une section\n" + "4. Quitter\n\n"
 			                   + "Veuillez entrer le chiffre correspondant à la fonction désirée:");
-			// try
-			// {
-			// methodeSelectionnee = Integer.parseInt(bufferRead.readLine());
-			// }
-			// catch (IOException e)
-			// {
-			// e.printStackTrace();
-			// }
 			
 			methodeSelectionnee = scan.nextInt();
 			

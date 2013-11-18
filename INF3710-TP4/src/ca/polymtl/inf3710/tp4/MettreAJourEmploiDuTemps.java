@@ -82,8 +82,6 @@ public class MettreAJourEmploiDuTemps
 			
 			result.close();
 			stmt.close();
-			// scan.close();
-			
 		}
 		catch (SQLException e)
 		{
@@ -92,24 +90,81 @@ public class MettreAJourEmploiDuTemps
 	}
 	
 	private void modifierSeance()
-	{   
+	{
+		Scanner scan = new Scanner(System.in);
 		
+		String groupe,
+				leType,
+				jour,
+				heure,
+				alternance;
+
+		String nouveauGroupe,
+				nouveauLeType,
+				nouveauJour,
+				nouveauHeure,
+				nouveauAlternance;
+		
+		
+		System.out.println("Veuillez entrer le numero du groupe que vous voulez modifier:");
+		groupe = scan.next();
+		System.out.println("Veuillez entrer le type de la seance que vous voulez modifier (C ou L):");
+		leType = scan.next();
+		System.out.println("Veuillez entrer le jour de la seance que vous voulez modifier (lundi...vendredi):");
+		jour = scan.next();
+		System.out.println("Veuillez entrer l'heure de la seance que vous voulez modifier (ex.: 9h30):");
+		heure = scan.next();
+		System.out.println("Veuillez entrer l'alternance du groupe que vous voulez modifier (B1 ou B2 ou HE):");
+		alternance = scan.next();
+		
+		System.out.println("Veuillez entrer le numero de groupe a assigner:");
+		nouveauGroupe = scan.next();
+		System.out.println("Veuillez entrer le type de la seance a assigner (C ou L):");
+		nouveauLeType = scan.next();
+		System.out.println("Veuillez entrer le jour de la seance a assigner (lundi...vendredi):");
+		nouveauJour = scan.next();
+		System.out.println("Veuillez entrer l'heure de la seance a assigner (ex.: 9h30):");
+		nouveauHeure = scan.next();
+		System.out.println("Veuillez entrer l'alternance du groupe a assigner (B1 ou B2 ou HE):");
+		nouveauAlternance = scan.next();
+		
+		try
+		{
+			ResultSet resultat = stmt.executeQuery("UPDATE Seance s, Jour j, Heure h " +
+					"SET groupe = " + nouveauGroupe + " AND " +
+							"s.leType = " + nouveauLeType + " AND " +
+							"s.codJour = j.codJour" + " AND " +
+							"s.codHeure = h.codHre" + " AND " +
+							"s.alternance = " + nouveauAlternance +
+							" WHERE j.nom = " + nouveauJour + " AND " +
+							"h.hre = " + nouveauHeure + " AND " +
+							"s.groupe = " + groupe + " AND " +
+							"s.leType = " + leType + " AND " +
+							"s.codJour = (SELECT codJour FROM Jour WHERE nom = " + jour + ") AND " +
+							"s.codHeure = (SELECT codHre FROM Heure WHERE hre = " + heure + ") AND " +
+							"s.alternance = " + alternance);
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	private void ajouterSeance()
-	{   
+	{
 		
 	}
 	
 	private void supprimerSeance()
-	{   
+	{
 		
 	}
 	
 	private void verifierRequete()
 	{
-		String reponse;
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
+		String reponse;
 		
 		do
 		{
@@ -122,8 +177,6 @@ public class MettreAJourEmploiDuTemps
 				System.out.println("Erreur, veuillez entrer 'o' ou 'n'.");
 			}
 		} while (reponse != "o" && reponse != "n");
-		
-		scan.close();
 		
 		try
 		{
@@ -138,7 +191,7 @@ public class MettreAJourEmploiDuTemps
 		}
 		catch (SQLException e)
 		{   
-			
+			e.printStackTrace();
 		}
 	}
 }
