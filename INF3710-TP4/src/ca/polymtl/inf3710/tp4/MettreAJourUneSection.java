@@ -354,7 +354,7 @@ public class MettreAJourUneSection
 			String type = "";
 			do
 			{
-				System.out.println("La section à modifier est-elle une section de travaux pratiques(L) ou de cours(C)?");
+				System.out.println("La section à supprimer est-elle une section de travaux pratiques(L) ou de cours(C)?");
 				String entree = scan.next();
 				
 				if (entree.equalsIgnoreCase("c") || entree.equalsIgnoreCase("Cours"))
@@ -365,7 +365,7 @@ public class MettreAJourUneSection
 					type = "L";
 			} while (type.isEmpty());
 			
-			System.out.println("Quel est le numéro de la section à modifier?");
+			System.out.println("Quel est le numéro de la section à supprimer?");
 			int section = scan.nextInt();
 			
 			Statement stmt = connection.createStatement();
