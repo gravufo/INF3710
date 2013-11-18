@@ -121,7 +121,7 @@ public class MettreAJourUneSection
 				
 				int choix = scan.nextInt();
 				
-				// TODO Choix d'action
+				// Choix d'action
 				while (choix < 1 || choix > 4)
 				{
 					System.out.println("La valeur entree est invalide. Veuillez entrer une valeur entre 1 et 4");
@@ -337,10 +337,63 @@ public class MettreAJourUneSection
 	
 	private void ajouterSection(String sigle)
 	{
-		// TODO Créer une section?
-		// Type?
-		// Numéro?
-		// Enseignant(s)?
+		// Créer une section?
+		try
+		{
+			@SuppressWarnings("resource")
+			Scanner scan = new Scanner(System.in);
+			// Modifier une section?
+			String type = "";
+			do
+			{
+				System.out.println("La section à ajouter sera-elle une section de travaux pratiques(L) ou de cours(C)?");
+				String entree = scan.next();
+				
+				if (entree.equalsIgnoreCase("c") || entree.equalsIgnoreCase("Cours"))
+					type = "C";
+				else if (entree.equalsIgnoreCase("L") || entree.equalsIgnoreCase("TP")
+				         || entree.equalsIgnoreCase("Travaux pratiques") || entree.equalsIgnoreCase("Lab")
+				         || entree.equalsIgnoreCase("Laboratoires"))
+					type = "L";
+			} while (type.isEmpty());
+			
+			System.out.println("Quel est le numéro de la section à ajouter?");
+			int section = scan.nextInt();
+			
+			Statement stmt = connection.createStatement();
+			// Vérification
+			ResultSet verification = stmt.executeQuery("SELECT * FROM Section WHERE sigle = '" + sigle
+			                                           + "' AND leType = '" + type + "' AND groupe = '" + section
+			                                           + "' ORDER BY leType, groupe");
+			if (verification.next())
+			{
+				System.out.println("La section existe déjà");
+				return;
+			}
+			
+			// Suppression des séances lié
+			stmt.executeUpdate("INSERT INTO Enseigner(sigle, leType, groupe) VALUES ('" + sigle + "', '" + type
+			                   + "', '" + section + "')");
+			
+			String fin = "Vous avez ajouter la section " + section + " de ";
+			if (type.equals("L"))
+			{
+				fin.concat("Travaux pratiques");
+			}
+			else
+			{
+				fin.concat("Cours");
+			}
+			fin.concat(" du cours " + sigle + ".");
+			
+			System.out.println(fin);
+			verifierRequete();
+			
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	private void supprimerSection(String sigle)
