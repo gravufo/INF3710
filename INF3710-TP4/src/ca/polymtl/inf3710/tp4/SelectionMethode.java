@@ -23,11 +23,11 @@ public class SelectionMethode
 		{
 			System.out.println("Veuillez entrer le nom d'usager:");
 			
-			//username = scan.next();
+			// username = scan.next();
 			
 			System.out.println("Veuillez entrer le mot de passe du compte:");
 			
-			//password = scan.next();
+			// password = scan.next();
 			
 		} while (!initialiserConnection());
 		
@@ -100,6 +100,7 @@ public class SelectionMethode
 		{
 			// Create a connection to the database
 			connection = DriverManager.getConnection(url, username, password);
+			connection.setAutoCommit(false);
 		}
 		catch (SQLException e)
 		{
