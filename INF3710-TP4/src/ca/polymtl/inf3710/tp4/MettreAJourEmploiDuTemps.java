@@ -171,12 +171,94 @@ public class MettreAJourEmploiDuTemps
 	
 	private void ajouterSeance()
 	{
+		Scanner scan = new Scanner(System.in);
 		
+		String groupe,
+				leType,
+				jour,
+				heure,
+				alternance,
+				lelocal,
+				duree;
+		
+		System.out.println("Veuillez entrer le groupe a assigner a la seance");
+		groupe = scan.next();
+		System.out.println("Veuillez entrer le type de la seance que vous voulez ajouter (C ou L):");
+		leType = scan.next();
+		System.out.println("Veuillez entrer le jour a assigner a la seance (lundi...vendredi):");
+		jour = scan.next();
+		System.out.println("Veuillez entrer l'heure a assigner a la seance (ex.: 9h30):");
+		heure = scan.next();
+		System.out.println("Veuillez entrer la duree a assigner a la seance:");
+		duree = scan.next();
+		System.out.println("Veuillez entrer l'alternance du groupe a assigner a la seance (B1 ou B2 ou HE):");
+		alternance = scan.next();
+		System.out.println("Veuillez entrer le local a assigner a la seance:");
+		lelocal = scan.next();
+		
+		try
+		{
+			ResultSet resultat = stmt.executeQuery("SELECT * FROM Jour j, Heure h WHERE hre = '" + heure + "' AND nom = '" + jour + "'");
+			resultat.next();
+			String codJour = resultat.getString("codJour"),
+					codHeure = resultat.getString("codHre");
+			
+			stmt.executeQuery("INSERT INTO Seance (sigle, leType, groupe, codJour, codHeure, alternance, duree, lelocal) " +
+					"VALUES ('" + sigle + "', '" + leType + "', '" + groupe + "', '" + codJour + "', '" + codHeure
+					+ "', '" + alternance + "', '" + duree + "', '" + lelocal + "')");
+			
+			System.out.println("Vous avez ajoute la seance");
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	private void supprimerSeance()
 	{
+		Scanner scan = new Scanner(System.in);
 		
+		String groupe,
+				leType,
+				jour,
+				heure,
+				alternance,
+				lelocal,
+				duree;
+		
+		System.out.println("Veuillez entrer le groupe de la seance a supprimer");
+		groupe = scan.next();
+		System.out.println("Veuillez entrer le type de la seance a supprimer (C ou L):");
+		leType = scan.next();
+		System.out.println("Veuillez entrer le jour de la seance a supprimer (lundi...vendredi):");
+		jour = scan.next();
+		System.out.println("Veuillez entrer l'heure de la seance a supprimer (ex.: 9h30):");
+		heure = scan.next();
+		System.out.println("Veuillez entrer l'alternance de la seance a supprimer (B1 ou B2 ou HE):");
+		alternance = scan.next();
+		
+		try
+		{
+			ResultSet resultat = stmt.executeQuery("SELECT * FROM Jour j, Heure h WHERE hre = '" + heure + "' AND nom = '" + jour + "'");
+			resultat.next();
+			String codJour = resultat.getString("codJour"),
+					codHeure = resultat.getString("codHre");
+			
+			resultat = stmt.executeQuery("DELETE FROM Seance " +
+					"WHERE groupe = '" + groupe + "' AND " +
+					"sigle = '" + sigle + "' AND " +
+					"leType = '" + leType + "' AND " +
+					"codJour = '" + codJour + "' AND " +
+					"codHeure = '" + codHeure + "' AND " +
+					"alternance = '" + alternance + "'");
+			
+			System.out.println("La seance a ete supprimee!");
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	private void verifierRequete()
