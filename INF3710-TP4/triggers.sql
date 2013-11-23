@@ -1,12 +1,12 @@
--- A.  DÃ©crivez et implantez un mÃ©canisme afin dâ€™imposer la contrainte suivante :  dans la table
+-- A.  Décrivez et implantez un mécanisme afin d’imposer la contrainte suivante :  dans la table
 --     Cours, on ne peut pas modifier le sigle ni le nom du cours.
 
--- Afin d'Ã©viter qu'on puisse modifier le sigle et le titre d'un cours, lorsque
--- l'une de ces deux colonnes est modifiÃ©e, on remplace la nouvelle valeur dans
--- la commande UPDATE, avant que celle-ci ne soit exÃ©cutÃ©e, par la valeur actuelle.
--- Ainsi, la valeur ne peut Ãªtre modifiÃ©e.
--- Il serait toutefois peut-Ãªtre plus prÃ©fÃ©rable d'utiliser des permissions sur les
--- colonnes spÃ©cifiques Ã  la place, si cela est possible.
+-- Afin d'éviter qu'on puisse modifier le sigle et le titre d'un cours, lorsque
+-- l'une de ces deux colonnes est modifiée, on remplace la nouvelle valeur dans
+-- la commande UPDATE, avant que celle-ci ne soit exécutée, par la valeur actuelle.
+-- Ainsi, la valeur ne peut être modifiée.
+-- Il serait toutefois peut-être plus préférable d'utiliser des permissions sur les
+-- colonnes spécifiques à la place, si cela est possible.
 
 CREATE OR REPLACE TRIGGER
 	im_sigle_and_name
@@ -20,26 +20,26 @@ BEGIN
 	:NEW.titre := :OLD.titre;
 END;
 
--- B. Conflits dâ€™horaire pour un enseignant
---    On veut interdire les conflits dâ€™horaires pour un enseignant, câ€™est-Ã -dire la situation dans
---    laquelle un enseignant serait affectÃ© Ã  deux sÃ©ances en mÃªme temps. On vous demande :
+-- B. Conflits d’horaire pour un enseignant
+--    On veut interdire les conflits d’horaires pour un enseignant, c’est-à-dire la situation dans
+--    laquelle un enseignant serait affecté à deux séances en même temps. On vous demande :
 
---    a. de caractÃ©riser formellement ce type de conflit ;
+--    a. de caractériser formellement ce type de conflit ;
 
---       Il s'agit d'un conflit entre deux sÃ©ances de cours qui se donnent
---       intÃ©gralement ou partiellement en mÃªme temps et dont la section est
---       enseignÃ©e par au moins une mÃªme personne.
+--       Il s'agit d'un conflit entre deux séances de cours qui se donnent
+--       intégralement ou partiellement en même temps et dont la section est
+--       enseignée par au moins une même personne.
 
---    b. de prÃ©ciser les actions sur la base de donnÃ©es qui pourraient engendrer un tel conflit ;
+--    b. de préciser les actions sur la base de données qui pourraient engendrer un tel conflit ;
 
---       Modifier ou ajouter une ligne dans sÃ©ance.
+--       Modifier ou ajouter une ligne dans séance.
 --       Modifier ou ajouter une ligne dans Enseigner.
 --       Modifier Jour ou Heure
       
---    c.  dâ€™implanter un ou plusieurs triggers qui garantissent la contrainte .
+--    c.  d’implanter un ou plusieurs triggers qui garantissent la contrainte .
 
 --  Pour le point (b), on vous signale que plusieurs actions menacent la contrainte, pas seulement
---  la crÃ©ation ou la modification dâ€™une sÃ©anceâ€¦
+--  la création ou la modification d’une séance…
 
 CREATE OR REPLACE TRIGGER
 	bf_heure_seance
@@ -64,45 +64,43 @@ BEGIN
 END;
 
 
--- C. Inventaire et analyse des contraintes dâ€™intÃ©gritÃ©
--- On souhaite garantir le respect de certaines propriÃ©tÃ©s (contraintes dÂ´intÃ©gritÃ©)
--- concernant la base de donnÃ©es. On vous demande dâ€™Ã©numÃ©rer lâ€™ensemble des propriÃ©tÃ©s qui
--- vous semblent pertinentes (y compris les propriÃ©tÃ©s Ã©voquÃ©es ci-dessus aux questions A et B).
--- Vous Ã©noncerez chaque propriÃ©tÃ© dÂ´une maniÃ¨re aussi prÃ©cise et formelle que possible.
--- Pour chacune des propriÃ©tÃ©s Ã©noncÃ©es, on vous demande de proposer une technique
--- permettant de garantir son respect. Cette technique pourrait Ãªtre une contrainte SQL (clÃ©
--- primaire, clÃ© externe, unicitÃ©, diffÃ©rent de nul, contrainte de vÃ©rification) ou un trigger. Notez
--- quâ€™on ne vous impose pas dâ€™implanter la technique que vous aurez proposÃ©e.
+-- C. Inventaire et analyse des contraintes d’intégrité
+-- On souhaite garantir le respect de certaines propriétés (contraintes d´intégrité)
+-- concernant la base de données. On vous demande d’énumérer l’ensemble des propriétés qui
+-- vous semblent pertinentes (y compris les propriétés évoquées ci-dessus aux questions A et B).
+-- Vous énoncerez chaque propriété d´une manière aussi précise et formelle que possible.
+-- Pour chacune des propriétés énoncées, on vous demande de proposer une technique
+-- permettant de garantir son respect. Cette technique pourrait être une contrainte SQL (clé
+-- primaire, clé externe, unicité, différent de nul, contrainte de vérification) ou un trigger. Notez
+-- qu’on ne vous impose pas d’implanter la technique que vous aurez proposée.
 
--- 1. VÃ©rifier que les prÃ©requis et corequis ne forment pas une boucle ce qui rendrait un cours
--- impossible Ã  prendre. Ceci pourrait Ãªtre fait avec un dÃ©clencheur, puisqu'il serait plus simple
--- de vÃ©rifier lors de l'ajout ou de la modification d'une entrÃ©e dans la table Prerequis. Il faut
--- donc, dans le dÃ©clancheur, comparer les prÃ©requis du cours Ã  modifier avec les prÃ©requis de tous
--- ces prÃ©requis afin de s'assurer que notre modification ne va pas crÃ©er une boucle.
+-- 1. Vérifier que les prérequis et corequis ne forment pas une boucle ce qui rendrait un cours
+-- impossible à prendre. Ceci pourrait être fait avec un déclencheur, puisqu'il serait plus simple
+-- de vérifier lors de l'ajout ou de la modification d'une entrée dans la table Prerequis. Il faut
+-- donc, dans le déclancheur, comparer les prérequis du cours à modifier avec les prérequis de tous
+-- ces prérequis afin de s'assurer que notre modification ne va pas créer une boucle.
 
--- 2. VÃ©rifier que la salle de chaque cours est disponible aux heures du cours, c'est Ã  dire qu'il n'y a pas
--- deux cours dans une salle en mÃªme temps. Il est encore une fois trÃ¨s faisable d'implanter cette contrainte
--- par l'entremise d'un dÃ©clencheur en analysant les locaux de tous les cours enregistrÃ©s aux heures qui nous
--- intÃ©ressent pour s'assurer que la salle voulue n'est pas dans cette liste. Il serait aussi possible de le
--- faire directement en JDBC, mais ce n'est pas aussi optimal, puisque si une autre mÃ©thode de modification
--- de base de donnÃ©e est utilisÃ©e, on ne peut pas avoir une garantie que la contrainte est respectÃ©e.
+-- 2. Vérifier que la salle de chaque cours est disponible aux heures du cours, c'est à dire qu'il n'y a pas
+-- deux cours dans une salle en même temps. Il est encore une fois très faisable d'implanter cette contrainte
+-- par l'entremise d'un déclencheur en analysant les locaux de tous les cours enregistrés aux heures qui nous
+-- intéressent pour s'assurer que la salle voulue n'est pas dans cette liste. Il serait aussi possible de le
+-- faire directement en JDBC, mais ce n'est pas aussi optimal, puisque si une autre méthode de modification
+-- de base de donnée est utilisée, on ne peut pas avoir une garantie que la contrainte est respectée.
 
--- 3. Il ne faut pas qu'un enseignant soit requis Ã  deux sÃ©ances simultanÃ©ment. Il faut donc vÃ©rifier que
+-- 3. Il ne faut pas qu'un enseignant soit requis à deux séances simultanément. Il faut donc vérifier que
 -- l'enseignant est disponible lors de l'ajout ou de la modification de la place horaire d'un cours, d'une
--- section ou d'une sÃ©ance. Pour ce faire, il faut utiliser un dÃ©clencheur qui utilisera une requÃªte interne
--- afin de vÃ©rifier qu'une requÃªte UPDATE n'apporte pas un conflit d'horaire des enseignants.
+-- section ou d'une séance. Pour ce faire, il faut utiliser un déclencheur qui utilisera une requête interne
+-- afin de vérifier qu'une requête UPDATE n'apporte pas un conflit d'horaire des enseignants.
 
--- 4. Il ne faut pas pouvoir rentrer une heure non valide ou une journÃ©e non valis dans la table Jour et Heure.
+-- 4. Il ne faut pas pouvoir rentrer une heure non valide ou une journée non valis dans la table Jour et Heure.
 -- Ainsi, puisque ceci est une contrainte assez simple, il est possible de le faire directement dans la base
--- de donnÃ©es grÃ¢ce aux contraintes SQL. Par contre, alternativement, on peut aussi entrer les donnÃ©es initiales
--- qui ne changeront pas (puisque les jours de la semaine et les heures de la journÃ©e ne changent pas) et ensuite
--- empÃªcher (annuler) toute modification, ajout ou retrait grÃ¢ce Ã  un dÃ©clencheur.
+-- de données grâce aux contraintes SQL. Par contre, alternativement, on peut aussi entrer les données initiales
+-- qui ne changeront pas (puisque les jours de la semaine et les heures de la journée ne changent pas) et ensuite
+-- empêcher (annuler) toute modification, ajout ou retrait grâce à un déclencheur.
 
--- 5. Il faut empÃªcher la modification du sigle et du titre d'un cours. Ceci est important, afin de garder une liste
--- de cours stable et retraÃ§able. Pour remplir cette contrainte, il est possible d'utiliser un dÃ©clencheur qui va
--- empÃªcher toute modification de ces deux champs en remplaÃ§ant dans la requÃªte la nouvelle valeur par l'ancienne.
--- Par contre, ceci n'est pas optimal, car il est possible qu'on veuille donner la permission Ã  certaines personnes
--- (ex.: un dÃ©partement, un professeur ou autre) de modifier ces champs. Il serait donc plus optimal d'utiliser un
-
--- OMG ALTERNACE B1 B2
--- systÃ¨me de permissions afin de contrÃ´ler les droits d'accÃ¨s Ã  certaines tables ou champs.
+-- 5. Il faut empêcher la modification du sigle et du titre d'un cours. Ceci est important, afin de garder une liste
+-- de cours stable et retraçable. Pour remplir cette contrainte, il est possible d'utiliser un déclencheur qui va
+-- empêcher toute modification de ces deux champs en remplaçant dans la requête la nouvelle valeur par l'ancienne.
+-- Par contre, ceci n'est pas optimal, car il est possible qu'on veuille donner la permission à certaines personnes
+-- (ex.: un département, un professeur ou autre) de modifier ces champs. Il serait donc plus optimal d'utiliser un
+-- système de permissions afin de contrôler les droits d'accès à certaines tables ou champs.
