@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 /**
- * CrÈer, supprimer ou modifier les information raltives ‡ une section de cours, incluant les enseignants.
+ * Cr√©er, supprimer ou modifier les information raltives √† une section de cours, incluant les enseignants.
  * 
  * @author Benjamin O'Connell-Armand
  * 
@@ -34,7 +34,7 @@ public class MettreAJourUneSection
 			do
 			{
 				
-				System.out.println("Veuillez entrer le sigle du cours concernÈ: (ex: INF3710)");
+				System.out.println("Veuillez entrer le sigle du cours concern√©: (ex: INF3710)");
 				
 				String sigle = scan.next().toUpperCase();
 				
@@ -62,7 +62,7 @@ public class MettreAJourUneSection
 				
 				infoCours.close();
 				
-				// Obtention des prÈrequis
+				// Obtention des pr√©requis
 				String prerequis = "";
 				ResultSet infoPrerequis = stmt.executeQuery("SELECT preRequis FROM Prerequis WHERE cours = 'INF3710'");
 				
@@ -73,9 +73,9 @@ public class MettreAJourUneSection
 					prerequis += ", " + infoPrerequis.getString("preRequis");
 				}
 				
-				System.out.println(cours + "PrÈrequis: " + prerequis + System.lineSeparator());
+				System.out.println(cours + "Pr√©requis: " + prerequis + System.lineSeparator());
 				
-				// Affichage des information de chacune des sections, triÈe par type
+				// Affichage des information de chacune des sections, tri√©e par type
 				ResultSet infoSection = stmt.executeQuery("SELECT leType, groupe FROM Section WHERE sigle = '" + sigle
 				                                          + "' ORDER BY leType, groupe");
 				
@@ -167,7 +167,7 @@ public class MettreAJourUneSection
 			String type = "";
 			do
 			{
-				System.out.println("La section ‡ modifier est-elle une section de travaux pratiques(L) ou de cours(C)?");
+				System.out.println("La section √† modifier est-elle une section de travaux pratiques(L) ou de cours(C)?");
 				String entree = scan.next();
 				
 				if (entree.equalsIgnoreCase("c") || entree.equalsIgnoreCase("Cours"))
@@ -178,11 +178,11 @@ public class MettreAJourUneSection
 					type = "L";
 			} while (type.isEmpty());
 			
-			System.out.println("Quel est le numÈro de la section ‡ modifier?");
+			System.out.println("Quel est le num√©ro de la section √† modifier?");
 			int section = scan.nextInt();
 			
 			Statement stmt = connection.createStatement();
-			// VÈrification
+			// V√©rification
 			ResultSet verification = stmt.executeQuery("SELECT * FROM Section WHERE sigle = '" + sigle
 			                                           + "' AND leType = '" + type + "' AND groupe = '" + section
 			                                           + "' ORDER BY leType, groupe");
@@ -233,9 +233,9 @@ public class MettreAJourUneSection
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		String nom, prenom = "";
-		System.out.println("Quel est le prenom de l'enseignant ‡ ajouter?");
+		System.out.println("Quel est le prenom de l'enseignant √† ajouter?");
 		prenom = scan.next();
-		System.out.println("Quel est le nom de famille de l'enseignant ‡ ajouter?");
+		System.out.println("Quel est le nom de famille de l'enseignant √† ajouter?");
 		nom = scan.next();
 		
 		try
@@ -248,7 +248,7 @@ public class MettreAJourUneSection
 			                                            + "' AND prenom = '" + prenom + "' AND nom = '" + nom + "'");
 			if (verification1.next())
 			{
-				System.out.println("Cet enseignant enseigne dÈj‡ se ‡ cette section.");
+				System.out.println("Cet enseignant enseigne d√©j√† se √† cette section.");
 				return;
 			}
 			
@@ -264,7 +264,7 @@ public class MettreAJourUneSection
 			                   + obtentionId.getInt("idPers") + "', '" + sigle + "', '" + type + "', '" + section
 			                   + "')");
 			
-			String fin = "Vous avez ajoutÈ " + nom + ", " + prenom + " comme enseignant pour le groupe " + section
+			String fin = "Vous avez ajout√© " + nom + ", " + prenom + " comme enseignant pour le groupe " + section
 			             + " de ";
 			if (type.equals("L"))
 			{
@@ -292,9 +292,9 @@ public class MettreAJourUneSection
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		String nom, prenom = "";
-		System.out.println("Quel est le prenom de l'enseignant ‡ supprimer?");
+		System.out.println("Quel est le prenom de l'enseignant √† supprimer?");
 		prenom = scan.next();
-		System.out.println("Quel est le nom de famille de l'enseignant ‡ supprimer?");
+		System.out.println("Quel est le nom de famille de l'enseignant √† supprimer?");
 		nom = scan.next();
 		
 		try
@@ -307,7 +307,7 @@ public class MettreAJourUneSection
 			                                          + "' AND prenom = '" + prenom + "' AND nom = '" + nom + "'");
 			if (!obtentionId.next())
 			{
-				System.out.println("Cet enseignant n'enseigne pas ‡ cette section.");
+				System.out.println("Cet enseignant n'enseigne pas √† cette section.");
 				return;
 			}
 			
@@ -315,7 +315,7 @@ public class MettreAJourUneSection
 			                   + "' AND sigle = '" + sigle + "' AND leType = '" + type + "' AND groupe = '" + section
 			                   + "'");
 			
-			String fin = "Vous avez supprimÈ " + nom + ", " + prenom + " comme enseignant pour le groupe " + section
+			String fin = "Vous avez supprim√© " + nom + ", " + prenom + " comme enseignant pour le groupe " + section
 			             + " de ";
 			if (type.equals("L"))
 			{
@@ -338,7 +338,7 @@ public class MettreAJourUneSection
 	
 	private void ajouterSection(String sigle)
 	{
-		// CrÈer une section?
+		// Cr√©er une section?
 		try
 		{
 			@SuppressWarnings("resource")
@@ -347,7 +347,7 @@ public class MettreAJourUneSection
 			String type = "";
 			do
 			{
-				System.out.println("La section ‡ ajouter sera-elle une section de travaux pratiques(L) ou de cours(C)?");
+				System.out.println("La section √† ajouter sera-elle une section de travaux pratiques(L) ou de cours(C)?");
 				String entree = scan.next();
 				
 				if (entree.equalsIgnoreCase("c") || entree.equalsIgnoreCase("Cours"))
@@ -358,17 +358,17 @@ public class MettreAJourUneSection
 					type = "L";
 			} while (type.isEmpty());
 			
-			System.out.println("Quel est le numÈro de la section ‡ ajouter?");
+			System.out.println("Quel est le num√©ro de la section √† ajouter?");
 			int section = scan.nextInt();
 			
 			Statement stmt = connection.createStatement();
-			// VÈrification
+			// V√©rification
 			ResultSet verification = stmt.executeQuery("SELECT * FROM Section WHERE sigle = '" + sigle
 			                                           + "' AND leType = '" + type + "' AND groupe = '" + section
 			                                           + "' ORDER BY leType, groupe");
 			if (verification.next())
 			{
-				System.out.println("La section existe dÈj‡");
+				System.out.println("La section existe d√©j√†");
 				return;
 			}
 			
@@ -408,7 +408,7 @@ public class MettreAJourUneSection
 			String type = "";
 			do
 			{
-				System.out.println("La section ‡ supprimer est-elle une section de travaux pratiques(L) ou de cours(C)?");
+				System.out.println("La section √† supprimer est-elle une section de travaux pratiques(L) ou de cours(C)?");
 				String entree = scan.next();
 				
 				if (entree.equalsIgnoreCase("c") || entree.equalsIgnoreCase("Cours"))
@@ -419,11 +419,11 @@ public class MettreAJourUneSection
 					type = "L";
 			} while (type.isEmpty());
 			
-			System.out.println("Quel est le numÈro de la section ‡ supprimer?");
+			System.out.println("Quel est le num√©ro de la section √† supprimer?");
 			int section = scan.nextInt();
 			
 			Statement stmt = connection.createStatement();
-			// VÈrification
+			// V√©rification
 			ResultSet verification = stmt.executeQuery("SELECT * FROM Section WHERE sigle = '" + sigle
 			                                           + "' AND leType = '" + type + "' AND groupe = '" + section
 			                                           + "' ORDER BY leType, groupe");
@@ -433,7 +433,7 @@ public class MettreAJourUneSection
 				return;
 			}
 			
-			// Suppression des sÈances liÈ
+			// Suppression des s√©ances li√©
 			stmt.executeUpdate("DELETE FROM Seance WHERE sigle = '" + sigle + "' AND leType = '" + type
 			                   + "' AND groupe = '" + section + "'");
 			
@@ -445,7 +445,7 @@ public class MettreAJourUneSection
 			stmt.executeUpdate("DELETE FROM Section WHERE sigle = '" + sigle + "' AND leType = '" + type
 			                   + "' AND groupe = '" + section + "'");
 			
-			String fin = "Vous avez supprimÈ la section " + section + " de ";
+			String fin = "Vous avez supprim√© la section " + section + " de ";
 			if (type.equals("L"))
 			{
 				fin += "Travaux pratiques";

@@ -63,13 +63,13 @@ public class Cours
 		switch (cycle)
 		{
 			case EtudeSuperieur:
-				return "Études supérieures";
+				return "Ã‰tudes supÃ©rieures";
 			case Baccalaureat:
-				return "Baccalauréat";
+				return "BaccalaurÃ©at";
 			case Certificat:
 				return "Certificat";
 			default:
-				return "Baccalauréat";
+				return "BaccalaurÃ©at";
 		}
 	}
 	

@@ -22,7 +22,7 @@ public class AfficherEmploisDuTemps
 			@SuppressWarnings("resource")
 			Scanner scan = new Scanner(System.in);
 			
-			System.out.println("Veuillez entrer le sigle du cours désiré:");
+			System.out.println("Veuillez entrer le sigle du cours dÃ©sirÃ©:");
 			
 			String sigle = scan.next().toUpperCase();
 			
